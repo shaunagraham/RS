@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.contact_detail.ContactDetailActivity">
+
+    <include
+        layout="@layout/toolbar_new" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include2">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutContactDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/relativeLayoutProfileRoot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+<!--                <com.mikhaellopez.circularimageview.CircularImageView-->
+<!--                    android:id="@+id/imageViewProfile"-->
+<!--                    android:layout_width="80dp"-->
+<!--                    android:layout_height="80dp"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:visibility="visible"-->
+<!--                    app:civ_border="true"-->
+<!--                    app:civ_border_color="@color/colorAccent"-->
+<!--                    app:civ_border_width="1dp"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--                <com.rap.sheet.utilitys.CustomTextViewRegular-->
+<!--                    android:id="@+id/textViewContactName"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_marginStart="16dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:textColor="@color/colorBlack"-->
+<!--                    android:textSize="@dimen/_18sdp"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/floatingButtonComment"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/imageViewProfile"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    tools:targetApi="jelly_bean" />-->
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imageViewMoreInfo"-->
+                <!--                    android:layout_width="36dp"-->
+                <!--                    android:layout_height="36dp"-->
+                <!--                    android:layout_alignParentEnd="true"-->
+                <!--                    android:layout_alignParentRight="true"-->
+                <!--                    android:layout_marginEnd="@dimen/_4sdp"-->
+                <!--                    -->
+                <!--                    android:layout_marginRight="@dimen/_4sdp"-->
+                <!--                    android:contentDescription="@string/todo"-->
+                <!--                    android:padding="@dimen/_2sdp"-->
+                <!--                    android:src="@drawable/ic_info"-->
+                <!--                    android:visibility="gone" />-->
+
+<!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                    android:id="@+id/floatingButtonComment"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@+id/textViewContactNumber"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_margin="@dimen/_8sdp"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:src="@drawable/ic_feedback"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:fabSize="normal"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--                <com.rap.sheet.utilitys.CustomTextViewRegular-->
+<!--                    android:id="@+id/textViewContactNumber"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@+id/textViewContactName"-->
+<!--                    android:textColor="@color/colorBlackLight"-->
+<!--                    android:textSize="@dimen/_16sdp"-->
+<!--                    app:layout_constraintEnd_toEndOf="@+id/textViewContactName"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/textViewContactName"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textViewContactName"-->
+<!--                    tools:targetApi="jelly_bean" />-->
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/textViewContactExtraInfo"-->
+                <!--                    style="@style/TextViewStyleLight"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_below="@+id/textViewContactEmail"-->
+                <!--                    android:layout_marginTop="@dimen/_3sdp"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    android:text="dfgfdg"-->
+                <!--                    android:textColor="@color/colorBlackLight"-->
+                <!--                    android:textSize="@dimen/_12sdp"-->
+                <!--                    tools:targetApi="jelly_bean" />-->
+
+<!--                <com.rap.sheet.utilitys.CustomTextViewLight-->
+<!--                    android:id="@+id/textViewContactEmail"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/colorBlackLight"-->
+<!--                    android:textSize="@dimen/_12sdp"-->
+<!--                    app:layout_constraintEnd_toEndOf="@+id/textViewContactNumber"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/textViewContactNumber"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textViewContactNumber"-->
+<!--                    tools:targetApi="jelly_bean" />-->
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewContactEmail">
+
+                    <ImageView
+                        android:id="@+id/imageViewWebsite"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:src="@drawable/ic_website"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imageViewInsta"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:src="@drawable/ic_instagram"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imageViewFacebook"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:src="@drawable/ic_facebook"
+                        android:visibility="gone" />
+
+
+                    <ImageView
+                        android:id="@+id/imageViewLinkedIn"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:src="@drawable/ic_linkedin"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+<!--                <View-->
+<!--                    android:id="@+id/viewDivider"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:background="@color/colorDivider"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/relativeLayoutComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:paddingBottom="@dimen/_65sdp"
+                        android:scrollbars="none" />
+
+                    <com.rap.sheet.utilitys.CustomTextViewBold
+                        android:id="@+id/textViewMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/fabAddNewComment"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toTopOf="@+id/fabAddNewComment"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_12ssp"
+                        android:text=""
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        tools:targetApi="jelly_bean" />
+
+                    <ImageView
+                        android:id="@+id/fabAddNewComment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:src="@drawable/ic_plus"
+                        android:visibility="visible"
+                        android:layout_marginBottom="@dimen/_25sdp"/>
+
+                    <include layout="@layout/progress_dialog_view" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <!--<android.support.design.widget.FloatingActionButton-->
+                <!--android:id="@+id/floatingButtonComment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_margin="@dimen/_16sdp"-->
+                <!--android:src="@mipmap/ic_comment"-->
+                <!--app:fabSize="normal" />-->
+
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/linearLayoutOtherOption"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:visibility="gone"-->
+<!--                    android:weightSum="4"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent">-->
+
+<!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                        android:id="@+id/floatingButtonCall"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="@dimen/_6sdp"-->
+<!--                        android:layout_marginRight="@dimen/_16sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_8sdp"-->
+<!--                        android:src="@drawable/ic_phone"-->
+<!--                        android:tint="@android:color/white"-->
+<!--                        app:fabSize="normal" />-->
+
+<!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                        android:id="@+id/floatingButtonMessage"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="@dimen/_6sdp"-->
+<!--                        android:layout_marginRight="@dimen/_16sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_8sdp"-->
+<!--                        android:src="@drawable/ic_feedback"-->
+<!--                        android:tint="@android:color/white"-->
+<!--                        app:fabSize="normal" />-->
+
+
+<!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                        android:id="@+id/floatingButtonSave"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="@dimen/_6sdp"-->
+<!--                        android:layout_marginRight="@dimen/_16sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_8sdp"-->
+<!--                        android:src="@drawable/ic_save"-->
+<!--                        android:tint="@android:color/white"-->
+<!--                        app:fabSize="normal" />-->
+
+
+<!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                        android:id="@+id/floatingButtonShare"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="@dimen/_6sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_8sdp"-->
+<!--                        android:src="@drawable/ic_share"-->
+<!--                        android:tint="@android:color/white"-->
+<!--                        app:fabSize="normal"-->
+<!--                        tools:ignore="RelativeOverlap" />-->
+
+<!--                </LinearLayout>-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include layout="@layout/no_internet_view" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayoutRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.rap.sheet.view.home.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutContactList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@drawable/home_searchbar"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_20sdp"
+                   android:src="@drawable/ic_header_logo" />
+
+                <com.rap.sheet.utilitys.CustomEditText
+                    android:id="@+id/editTextSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_38sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:background="@drawable/home_searchbar_editview"
+
+                    android:drawableTint="@color/white_tra_75"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:hint="@string/search_number"
+                    android:imeOptions="actionSearch"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/white_tra_75"
+                    android:textSize="@dimen/_14sdp"
+                    tools:ignore="RtlSymmetry"
+                    tools:targetApi="lollipop" />
+
+            </LinearLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/linearLayoutSearch">
+
+                <com.rap.sheet.utilitys.CustomTextViewRegular
+                    android:id="@+id/textViewSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/searching"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewContact"
+                    android:paddingTop="@dimen/_16sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutAddNewContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.rap.sheet.utilitys.CustomTextViewRegular
+                        android:id="@+id/textViewNoContactMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:textSize="@dimen/_14sdp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonAddContact"
+                        style="@style/Widget.MaterialComponents.Button.Icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:backgroundTint="@color/yellow"
+                        android:minHeight="0dp"
+                        android:paddingStart="@dimen/_12sdp"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_12sdp"
+                        android:paddingBottom="@dimen/_8sdp"
+                        android:text="@string/add_manually"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        app:cornerRadius="@dimen/_18sdp"
+                        app:icon="@drawable/ic_person_add"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+
+                </LinearLayout>
+
+
+                <include layout="@layout/no_message_view" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

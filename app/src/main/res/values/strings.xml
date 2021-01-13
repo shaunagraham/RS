@@ -1,0 +1,124 @@
+<resources>
+    <string name="app_name">RapSheet</string>
+    <string name="no_internet">No Internet Connection!!</string>
+    <string name="retry">Retry</string>
+    <string name="yes">Yes</string>
+
+    <string name="no_internet_msg">Slow or no internet connection.\nPlease check your internet settings.</string>
+    <string name="something_wrong">Something went wrong!</string>
+    <string name="drawer_header">Menu</string>
+    <string name="drawer_search">Search</string>
+    <string name="drawer_rate_app">Rate App</string>
+    <string name="drawer_my_contact">My List</string>
+    <string name="drawer_recent">Recent</string>
+    <string name="drawer_remove_my_result">Remove My Result</string>
+    <string name="drawer_share_app">Share App</string>
+    <string name="drawer_help">Help</string>
+    <string name="drawer_privacy">Privacy Policy</string>
+    <string name="drawer_terms">Terms Of Use</string>
+    <string name="no_history_yet">No Results Found</string>
+    <string name="delete_contact_msg">Are you sure you want to delete this contact?</string>
+    <string name="delete_comment_msg">Are you sure you want to delete this comment?</string>
+    <string name="no_contact_found">No contact found!</string>
+    <string name="no_conatct_yes">This is a Google Voice or Prepaid Number.</string>
+    <!--<string name="no_conatct_yes">Prepaid Phone or Google Voice Number.</string>-->
+    <!--Search String-->
+    <string name="search">Search</string>
+    <string name="search_no">Search Number</string>
+    <string name="delete">Delete</string>
+
+    <string name="empty_first_name">Please enter first name</string>
+    <string name="empty_last_name">Please enter last name</string>
+    <string name="invalid_phone">Please enter a valid phone number</string>
+    <string name="empty_email">Please enter email</string>
+    <string name="invalid_email">Please enter a valid email address</string>
+    <string name="empty_phone">Please enter phone</string>
+    <string name="valid_phone">Please Valid phone number</string>
+
+    <!--Comment String-->
+    <string name="comment">Comment</string>
+    <string name="rate_overall_experience">Rate Overall Experience</string>
+    <string name="add_new_contact">Add New Contact</string>
+    <string name="todo">TODO</string>
+
+    <!--Add New Number String-->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="extra_info">Extra Info</string>
+    <string name="cancel">Cancel</string>
+    <string name="Add">Add</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="first_name_error_msg">First name is required!</string>
+    <string name="last_name_error_msg">Last name is required!</string>
+    <string name="phone_name_error_msg">Phone number is required!</string>
+    <string name="no_comment_msg">No comment yet.</string>
+    <string name="title_activity_help_privacy_terms">HelpPrivacyTermsActivity</string>
+    <string name="comment_required">Please write a comment.</string>
+    <string name="contact_delete_msg">This contact has been deleted.</string>
+    <string name="remove">Remove</string>
+    <string name="remove_ads">Remove Ads</string>
+    <string name="save">Save</string>
+    <string name="message">Message</string>
+    <string name="call">Call</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_browse">Blacklist</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="show_location"><u>Show location on your Google Map</u></string>
+    <string name="line_provider">Line Provider</string>
+    <string name="carrier">Carrier</string>
+    <string name="report">Report</string>
+
+    <string name="title">Title</string>
+    <string name="submit">Submit</string>
+    <string name="thank_you">Thank you!</string>
+    <string name="search_number">Search Number</string>
+    <string name="search_name">Search by name or number</string>
+    <string name="feed_back">Feedback</string>
+    <string name="www_website_com">www.website.com</string>
+    <string name="www_facebook_com_username">www.facebook.com/username</string>
+    <string name="instagram">\@Instagram</string>
+    <string name="www_linkedin_com_username">http://linkedin.com/in/username</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="need_camera_gallery_permission">RapSheet need to camera and gallery permission.</string>
+    <string name="rap">Rap</string>
+    <string name="sheet">sheet</string>
+    <string name="home">Home</string>
+    <string name="myList">My List</string>
+    <string name="blackList">Black List</string>
+    <string name="setting">Settings</string>
+    <string name="my_list">My List</string>
+    <string name="my_profile">My Profile</string>
+    <string name="rate_app">Rate App</string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="terms">Terms</string>
+    <string name="policy">Privacy Policy</string>
+    <string name="remove_result">Remove Results</string>
+    <string name="help">Help</string>
+    <string name="feedback">Feedback</string>
+    <string name="share_app">Share App</string>
+    <string name="enter_a_number">Enter a Number</string>
+    <string name="past">Past</string>
+    <string name="website_link">Website Link</string>
+    <string name="instagram_link">Instagram Link</string>
+    <string name="facebook_link">Facebook Link</string>
+    <string name="linkedin_link">Linkedin Link</string>
+    <string name="add_manually">Add Manually</string>
+    <string name="profile">Profile Detail</string>
+    <string name="searching">Searching...</string>
+    <string name="log">Log</string>
+    <string name="clear">Clear</string>
+    <string name="paste_number">Paste Number</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="edit">Edit</string>
+    <string name="empty_message">Please enter message</string>
+    <string name="send">Send</string>
+<!--    <string name="interstitial_full_screen">ca-app-pub-3940256099942544/1033173712</string>-->
+<!--    <string name="interstitial_full_screen">ca-app-pub-7827617590051418/3553334765</string>-->
+    <string name="no_result_for">No Results for</string>
+    <string name="product_id_key">rapsheet_2021</string>
+</resources>

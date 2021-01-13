@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3f0039</color>
+    <color name="colorPrimaryDark">@color/pink_gradient</color>
+    <color name="colorAccent">#1DAEA9</color>
+    <color name="colorBlack">#333333</color>
+    <color name="colorBlackLight">#434141</color>
+    <color name="colorPhone">#4f4d4d</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGrayLight">#999999</color>
+
+    <color name="colorWhiteLight">#d1d1d1</color>
+    <color name="colorGrayDark">#9b9e9f</color>
+    <color name="colorOrange">#d1854d</color>
+    <color name="colorDivider">#e5e5e5</color>
+    <color name="bg_row_background">#fa315b</color>
+
+    <color name="pink_gradient">#A30D8A</color>
+    <color name="blue_gradient">#280D6C</color>
+    <color name="purple_gradient">#540D77</color>
+    <color name="sheet_textcolor">#D796CD</color>
+    <color name="colorGrayHome">#637280</color>
+    <color name="navigationSelectedItem">#1DAEA9</color>
+    <color name="white_tra_75">#BFffffff</color>
+    <color name="yellow">#F8BD35</color>
+    <color name="btnColorGray">#F9F9F9</color>
+</resources>

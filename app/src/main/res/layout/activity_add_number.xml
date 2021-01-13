@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        tools:context="com.rap.sheet.view.add_contact.AddContactActivity">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayoutRoot"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/topView"
+                    layout="@layout/top_view_layout"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <!--            <include layout="@layout/toolbar" />-->
+
+                <ScrollView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fillViewport="true"
+                    android:fitsSystemWindows="true"
+                    android:scrollbars="none"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/topView">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/_22sdp"
+                        app:layout_constraintBottom_toTopOf="@+id/lvBottom"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/topView">
+
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/imageViewProfile"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/_18sdp"
+                            android:src="@drawable/ic_user"
+                            android:visibility="visible"
+                            app:civ_border="true"
+                            app:civ_border_width="1dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/fabChooseImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_camera"
+                            android:tint="@android:color/white"
+                            android:visibility="gone"
+                            app:fabSize="mini"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewProfile"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfile"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewProfile"
+                            app:layout_constraintTop_toBottomOf="@+id/imageViewProfile" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutFname"
+                            style="@style/My.TextInputLayout.FilledBox.Dense"
+                            android:layout_marginTop="@dimen/_18sdp"
+                            app:errorTextAppearance="@style/error_appearance"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:hintTextColor="@color/colorBlack"
+                            app:layout_constraintBottom_toTopOf="@+id/textInputLayoutLname"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageViewProfile">
+
+                            <com.rap.sheet.utilitys.CustomEditText
+                                android:id="@+id/editTextFirstName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorWhite"
+                                android:hint="@string/first_name"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="textAutoCorrect"
+                                android:textColor="@color/colorBlack"
+                                tools:ignore="UnusedAttribute" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutLname"
+                            style="@style/My.TextInputLayout.FilledBox.Dense"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:errorTextAppearance="@style/error_appearance"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:layout_constraintBottom_toTopOf="@+id/textInputLayoutPhoneNumber"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFname">
+
+                            <com.rap.sheet.utilitys.CustomEditText
+                                android:id="@+id/editTextLastName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorWhite"
+                                android:hint="@string/last_name"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="textAutoCorrect"
+                                android:textColor="@color/colorBlack"
+                                tools:ignore="UnusedAttribute" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutPhoneNumber"
+                            style="@style/My.TextInputLayout.FilledBox.Dense"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:errorTextAppearance="@style/error_appearance"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLname">
+
+                            <com.rap.sheet.utilitys.CustomEditText
+                                android:id="@+id/editTextPhoneNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorWhite"
+                                android:hint="@string/phone_number"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="phone"
+                                android:maxLength="16"
+                                android:textColor="@color/colorBlack"
+                                tools:ignore="UnusedAttribute" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutEmail"
+                            style="@style/My.TextInputLayout.FilledBox.Dense"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:errorTextAppearance="@style/error_appearance"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPhoneNumber">
+
+                            <com.rap.sheet.utilitys.CustomEditText
+                                android:id="@+id/editTextEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorWhite"
+                                android:hint="@string/email"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="textEmailAddress"
+                                android:textColor="@color/colorBlack"
+                                tools:ignore="UnusedAttribute" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutWebsite"
+                            style="@style/My.TextInputLayout.FilledBox.Dense"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:errorTextAppearance="@style/error_appearance"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail">
+
+                            <com.rap.sheet.utilitys.CustomEditText
+                                android:id="@+id/editTextWebsite"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorWhite"
+                                android:hint="@string/website_link"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="textPersonName"
+                                android:textColor="@color/colorBlack"
+                                tools:ignore="UnusedAttribute" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutInsta"
+                            style="@style/My.TextInputLayout.FilledBox.Dense"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:errorTextAppearance="@style/error_appearance"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWebsite">
+
+                            <com.rap.sheet.utilitys.CustomEditText
+                                android:id="@+id/editTextInsta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorWhite"
+                                android:hint="@string/instagram_link"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="textPersonName"
+                                android:textColor="@color/colorBlack"
+                                tools:ignore="UnusedAttribute" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutFacebook"
+                            style="@style/My.TextInputLayout.FilledBox.Dense"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:errorTextAppearance="@style/error_appearance"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutInsta">
+
+                            <com.rap.sheet.utilitys.CustomEditText
+                                android:id="@+id/editTextFacebook"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorWhite"
+                                android:hint="@string/facebook_link"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="textPersonName"
+                                android:textColor="@color/colorBlack"
+                                tools:ignore="UnusedAttribute" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutLinkedIn"
+                            style="@style/My.TextInputLayout.FilledBox.Dense"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            app:errorTextAppearance="@style/error_appearance"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFacebook">
+
+                            <com.rap.sheet.utilitys.CustomEditText
+                                android:id="@+id/editTextLinkedIn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorWhite"
+                                android:hint="@string/linkedin_link"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="textPersonName"
+                                android:textColor="@color/colorBlack"
+                                tools:ignore="UnusedAttribute" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lvBottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_26sdp"
+                            android:layout_marginTop="@dimen/_22sdp"
+                            android:layout_marginEnd="@dimen/_26sdp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLinkedIn">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonCancel"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/_8sdp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/btnColorGray"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"
+                                android:text="@string/cancel"
+                                android:textAllCaps="false"
+                                android:textColor="@color/colorAccent"
+                                app:cornerRadius="@dimen/_18sdp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonAdd"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_8sdp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/colorAccent"
+                                android:gravity="center"
+                                android:padding="@dimen/_10sdp"
+                                android:text="@string/Add"
+                                android:textAllCaps="false"
+                                android:textColor="@color/colorWhite"
+                                app:cornerRadius="@dimen/_18sdp" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </ScrollView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!--    <RelativeLayout-->
+        <!--        android:id="@+id/adViewContact"-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_alignParentBottom="true"-->
+        <!--        android:layout_centerHorizontal="true"-->
+        <!--        android:layout_marginStart="8dp"-->
+        <!--        android:layout_marginLeft="8dp"-->
+        <!--        android:layout_marginTop="8dp"-->
+        <!--        android:layout_marginEnd="8dp"-->
+        <!--        android:layout_marginRight="8dp"-->
+        <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toBottomOf="@+id/coordinatorLayoutRoot"-->
+        <!--        app:layout_constraintVertical_bias="1.0" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

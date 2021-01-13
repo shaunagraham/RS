@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/home"
+        android:id="@+id/bottomNavigationHome"
+        android:icon="@drawable/ic_home_default"/>
+    <item android:title="@string/search"
+        android:id="@+id/bottomNavigationMyList"
+        android:icon="@drawable/ic_search_default"/>
+    <item android:title="@string/log"
+        android:id="@+id/bottomNavigationBlackList"
+        android:icon="@drawable/ic_block_default"/>
+    <item android:title="@string/setting"
+        android:id="@+id/bottomNavigationSettings"
+        android:icon="@drawable/ic_settings_default"/>
+</menu>
