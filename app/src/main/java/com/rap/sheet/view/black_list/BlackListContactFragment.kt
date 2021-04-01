@@ -1,6 +1,5 @@
 package com.rap.sheet.view.black_list
 
-import android.content.DialogInterface
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -58,8 +57,9 @@ class BlackListContactFragment : BaseFragment(), RefreshContactList {
     }
 
     private fun listenToViewModel() {
-        mViewModel.blackListContactSuccessResponse.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        mViewModel.blackListContactSuccessResponse.observe(viewLifecycleOwner, {
             linearLayoutProgressBar.beGone()
+            contactModelList.clear()
             val result: String = it.string()
             val myContactRootModel = Gson().fromJson(result, MyContactRootModel::class.java)
             myContactRootModel?.contacts?.apply {
@@ -73,7 +73,7 @@ class BlackListContactFragment : BaseFragment(), RefreshContactList {
             }
             checkContactAvailableOrNot()
         })
-        mViewModel.blackListContactErrorResponse.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        mViewModel.blackListContactErrorResponse.observe(viewLifecycleOwner, {
             linearLayoutProgressBar.beGone()
             if (!InternetConnection.checkConnection(requireContext())) {
                 constraintLayoutNoInternet.beGone()
@@ -81,7 +81,7 @@ class BlackListContactFragment : BaseFragment(), RefreshContactList {
                 reLoadAPI()
             }
         })
-        mViewModel.noInternetException.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        mViewModel.noInternetException.observe(viewLifecycleOwner, {
 
         })
     }
@@ -142,17 +142,23 @@ class BlackListContactFragment : BaseFragment(), RefreshContactList {
 
 
     private fun reLoadAPI() {
-        requireActivity().displayAlertDialog(desc = resources.getString(R.string.something_wrong), positiveText = resources.getString(R.string.retry), positiveClick = DialogInterface.OnClickListener { dialog, which ->
-            dialog?.apply {
-                dismiss()
-                linearLayoutProgressBar.beVisible()
-                allBrowseContactAPI()
-            }
-        }, negativeText = resources.getString(R.string.cancel), negativeClick = DialogInterface.OnClickListener { dialog, which ->
-            dialog?.apply {
-                dismiss()
-            }
-        })
+        requireActivity().displayAlertDialog(
+                desc = resources.getString(R.string.something_wrong),
+                positiveText = resources.getString(R.string.retry),
+                positiveClick = { dialog, _ ->
+                    dialog?.apply {
+                        dismiss()
+                        linearLayoutProgressBar.beVisible()
+                        allBrowseContactAPI()
+                    }
+                },
+                negativeText = resources.getString(R.string.cancel),
+                negativeClick = { dialog, _ ->
+                    dialog?.apply {
+                        dismiss()
+                    }
+                }
+        )
     }
 
     private fun checkContactAvailableOrNot() {
@@ -167,8 +173,8 @@ class BlackListContactFragment : BaseFragment(), RefreshContactList {
         }
     }
 
-    override fun onReceive(refresh: Boolean?) {
-        if (refresh != null && refresh) {
+    override fun onReceive(isRefresh: Boolean?) {
+        if (isRefresh != null && isRefresh) {
             linearLayoutProgressBar.beVisible()
             linearLayoutNoMessage.beGone()
             constraintLayoutNoInternet.beGone()

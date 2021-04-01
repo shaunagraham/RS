@@ -1,6 +1,4 @@
 package com.rap.sheet.view.my_contact
-
-
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,6 +12,7 @@ import com.rap.sheet.extenstion.displayAlertDialog
 import com.rap.sheet.extenstion.userID
 import com.rap.sheet.model.MyContact.ContactModel
 import com.rap.sheet.model.MyContact.MyContactRootModel
+import com.rap.sheet.utilitys.InternetConnection
 import com.rap.sheet.utilitys.RecyclerItemTouchHelperContact
 import com.rap.sheet.view.common.BaseActivity
 import com.rap.sheet.viewmodel.MyContactViewModel
@@ -55,12 +54,12 @@ class MyContactActivity : BaseActivity(), RecyclerItemTouchHelperContact.Recycle
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
         displayAlertDialog(desc = resources.getString(R.string.delete_contact_msg), cancelable = false,
-                positiveText = resources.getString(R.string.yes), positiveClick = DialogInterface.OnClickListener { dialog, _ ->
+                positiveText = resources.getString(R.string.yes), positiveClick = { dialog, _ ->
             dialog?.apply {
                 this.dismiss()
                 callDeleteMyContact(position)
             }
-        }, negativeText = resources.getString(R.string.cancel), negativeClick = DialogInterface.OnClickListener { dialog, _ ->
+        }, negativeText = resources.getString(R.string.cancel), negativeClick = { dialog, _ ->
             dialog?.apply {
                 this.dismiss()
                 myContactAdapter?.apply {
@@ -75,27 +74,56 @@ class MyContactActivity : BaseActivity(), RecyclerItemTouchHelperContact.Recycle
         this.position = position
         launchProgressDialog()
         mViewModel.deleteContact(contactModelList[position].id.toString(), contactModelList[position].userId.toString())
-
     }
 
 
     private fun listenToViewModel() {
-        mViewModel.deleteContactSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.deleteContactSuccessResponse.observe(this, {
             contactModelList.removeAt(position)
             myContactAdapter?.apply {
                 notifyItemRemoved(position)
             }
             dismissProgressDialog()
         })
-        mViewModel.deleteContactErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.deleteContactErrorResponse.observe(this, {
             dismissProgressDialog()
         })
 
-        mViewModel.noInternetException.observe(this, androidx.lifecycle.Observer {
+        mViewModel.noInternetException.observe(this, {
+            dismissProgressDialog()
+            if (InternetConnection.checkConnection(this)) {
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.something_wrong),
+                        cancelable = false,
+                        positiveText = resources.getString(android.R.string.ok),
+                        positiveClick = object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.apply {
+                                    this.dismiss()
+                                }
+                            }
 
+                        }
+                )
+            } else {
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.no_internet_msg),
+                        cancelable = false,
+                        positiveText = resources.getString(android.R.string.ok),
+                        positiveClick = object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.apply {
+                                    this.dismiss()
+
+                                }
+                            }
+
+                        }
+                )
+            }
         })
 
-        mViewModel.myContactListSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.myContactListSuccessResponse.observe(this, {
             contactModelList.clear()
             val result: String = it.string()
             val myContactRootModel = Gson().fromJson(result, MyContactRootModel::class.java)
@@ -105,7 +133,7 @@ class MyContactActivity : BaseActivity(), RecyclerItemTouchHelperContact.Recycle
             }
             linearLayoutProgressBar.beGone()
         })
-        mViewModel.myContactListErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.myContactListErrorResponse.observe(this, {
             linearLayoutProgressBar.beGone()
         })
     }

@@ -9,7 +9,6 @@ import com.rap.sheet.R
 import com.rap.sheet.databinding.SearchContactRowViewBinding
 import com.rap.sheet.extenstion.click
 import com.rap.sheet.model.MyContact.ContactModel
-import com.rap.sheet.utilitys.BindingHolder
 import com.rap.sheet.utilitys.Utility
 
 class MyContactAdapter(private val contactModelList: MutableList<ContactModel>,

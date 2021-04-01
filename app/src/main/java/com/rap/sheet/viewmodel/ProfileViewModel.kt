@@ -18,13 +18,13 @@ class ProfileViewModel constructor(private val restInterface: RestInterface) : B
     val uploadProfileSuccessResponse = MutableLiveData<ResponseBody>()
     val uploadProfileErrorResponse = MutableLiveData<ResponseBody>()
 
-    fun uploadProfile(uuid: RequestBody, firstName: RequestBody, lastName: RequestBody, number: RequestBody, email: RequestBody, media: MultipartBody.Part) {
+    fun uploadProfile(uuid: RequestBody, firstName: RequestBody, lastName: RequestBody, number: RequestBody, email: RequestBody,webLink: RequestBody,instagram: RequestBody,twitter: RequestBody,facebook: RequestBody,linkdin: RequestBody, media: MultipartBody.Part) {
         viewModelScope.launch(apiException() + Dispatchers.Main) {
             Log.i("TAG", "uploadProfile: "+media)
             val response = if (media != null) {
-                restInterface.updateProfile(uuid, firstName, lastName, email, number, media)
+                restInterface.updateProfile(uuid, firstName, lastName, email, number,webLink,instagram,twitter,facebook,linkdin,media)
             } else {
-                restInterface.updateProfileWithOutImage(uuid, firstName, lastName, email, number)
+                restInterface.updateProfileWithOutImage(uuid, firstName, lastName, email, number,webLink,instagram,twitter,facebook,linkdin)
             }
 
             when (response.code()) {
@@ -39,10 +39,10 @@ class ProfileViewModel constructor(private val restInterface: RestInterface) : B
         }
     }
 
-    fun uploadProfileWithout(uuid: RequestBody, firstName: RequestBody, lastName: RequestBody, number: RequestBody, email: RequestBody) {
+    fun uploadProfileWithout(uuid: RequestBody, firstName: RequestBody, lastName: RequestBody, number: RequestBody, email: RequestBody,webLink: RequestBody,instagram: RequestBody,twitter: RequestBody,facebook: RequestBody,linkdin: RequestBody) {
         viewModelScope.launch(apiException() + Dispatchers.Main) {
             val response =
-                restInterface.updateProfileWithOutImage(uuid, firstName, lastName, email, number)
+                restInterface.updateProfileWithOutImage(uuid, firstName, lastName, email, number,webLink,instagram,twitter,facebook,linkdin)
 
             when (response.code()) {
                 Constant.SUCCESS_STATUS, Constant.SUCCESS_INSERTED -> {

@@ -8,7 +8,7 @@
         android:background="@color/colorWhite">
 
         <include
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar1"
             layout="@layout/top_view_layout" />
 
         <ScrollView
@@ -18,7 +18,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar1">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutNoInternet"
@@ -146,6 +146,138 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutWebsite"
+                    style="@style/My.TextInputLayout.FilledBox.Dense"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail">
+
+                    <com.rap.sheet.utilitys.CustomEditText
+                        android:id="@+id/editTextWebsiteProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:inputType="textPersonName"
+                        android:drawableLeft="@drawable/ic_website"
+                        android:drawablePadding="8dp"
+                        android:hint="@string/website_url"
+                        android:textColor="@color/link"
+                        tools:ignore="UnusedAttribute" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutInsta"
+                    style="@style/My.TextInputLayout.FilledBox.Dense"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWebsite">
+
+                    <com.rap.sheet.utilitys.CustomEditText
+                        android:id="@+id/editTextInstaProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        android:drawableLeft="@drawable/ic_instagram"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:inputType="textPersonName"
+                        android:drawablePadding="8dp"
+                        android:hint="@string/instagram_url"
+                        android:textColor="@color/link"
+                        tools:ignore="UnusedAttribute" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutTwitter"
+                    style="@style/My.TextInputLayout.FilledBox.Dense"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutInsta">
+
+                    <com.rap.sheet.utilitys.CustomEditText
+                        android:id="@+id/editTextTwitterProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        android:drawableLeft="@drawable/ic_twitter"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:inputType="textPersonName"
+                        android:drawablePadding="8dp"
+                        android:hint="@string/twitter_url"
+                        android:textColor="@color/link"
+                        tools:ignore="UnusedAttribute" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutFacebook"
+                    style="@style/My.TextInputLayout.FilledBox.Dense"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTwitter">
+
+                    <com.rap.sheet.utilitys.CustomEditText
+                        android:id="@+id/editTextFacebookProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        android:drawableLeft="@drawable/ic_facebook"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:inputType="textPersonName"
+                        android:hint="@string/facebook_url"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/link"
+                        tools:ignore="UnusedAttribute" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutLinkedIn"
+                    style="@style/My.TextInputLayout.FilledBox.Dense"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFacebook">
+
+                    <com.rap.sheet.utilitys.CustomEditText
+                        android:id="@+id/editTextLinkedInProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        android:drawableLeft="@drawable/ic_linkedin"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:inputType="textPersonName"
+                        android:drawablePadding="8dp"
+                        android:hint="@string/linkedin_url"
+                        android:textColor="@color/link"
+                        tools:ignore="UnusedAttribute" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <LinearLayout
                     android:id="@+id/lvBottom"
                     android:layout_width="match_parent"
@@ -153,12 +285,13 @@
                     android:layout_marginStart="@dimen/_26sdp"
                     android:layout_marginTop="@dimen/_32sdp"
                     android:layout_marginEnd="@dimen/_26sdp"
-                    android:layout_marginBottom="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_26sdp"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLinkedIn">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonCancel"
+                        android:id="@+id/buttonClose"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -173,7 +306,7 @@
                         app:cornerRadius="@dimen/_18sdp" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonAdd"
+                        android:id="@+id/buttonSave"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

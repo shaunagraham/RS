@@ -1,9 +1,8 @@
 package com.rap.sheet.application
 
 import android.app.Application
-import android.content.Context
-import android.os.Build
-import android.preference.PreferenceManager
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.rap.sheet.db.AdsRemovePref
 import com.rap.sheet.di.mainAppModules
 import org.koin.android.ext.koin.androidContext
@@ -16,8 +15,10 @@ class BaseApplication : Application() {
 
     val premiumTag = "premiumTag"
     private var isPremium = false
+    var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     companion object {
+
 
         var adsRemovePref: AdsRemovePref? = null
 
@@ -45,12 +46,25 @@ class BaseApplication : Application() {
 
         }
 
+
+//        connectPusher();
+        // InitializeImageLoader();
+        //firebase crashanalytic
+//        FirebaseApp.initializeApp(this)
+        FirebaseCrashlytics.getInstance()
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        mFirebaseAnalytics!!.setAnalyticsCollectionEnabled(true)
+
     }
 
 
     fun getInstance(): BaseApplication {
         return baseAppClass
     }
+//
+//    public fun getFirebaseAnalytics(): FirebaseAnalytics? {
+//        return mFirebaseAnalytics
+//    }
 
 
 }

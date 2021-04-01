@@ -6,26 +6,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/linearLayoutTitle"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/home_searchbar"-->
-<!--            android:orientation="vertical"-->
-<!--            android:padding="@dimen/_14sdp"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent">-->
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/linearLayoutTitle"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="@drawable/home_searchbar"-->
+        <!--            android:orientation="vertical"-->
+        <!--            android:padding="@dimen/_14sdp"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
 
-<!--            <com.rap.sheet.utilitys.CustomTextViewRegular-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/setting"-->
-<!--                android:textColor="@color/colorWhite"-->
-<!--                android:textSize="@dimen/_18ssp" />-->
-<!--        </LinearLayout>-->
+        <!--            <com.rap.sheet.utilitys.CustomTextViewRegular-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:gravity="center"-->
+        <!--                android:text="@string/setting"-->
+        <!--                android:textColor="@color/colorWhite"-->
+        <!--                android:textSize="@dimen/_18ssp" />-->
+        <!--        </LinearLayout>-->
 
         <ScrollView
             android:layout_width="0dp"
@@ -39,16 +39,15 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_22sdp"
                 android:layout_marginTop="@dimen/_28sdp"
                 android:layout_marginRight="@dimen/_22sdp"
-                android:layout_marginBottom="@dimen/_22sdp"
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="@dimen/_22sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                   >
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/lvProfile"
@@ -85,7 +84,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/lvRateApp"
+                        android:id="@+id/lvBlockedCall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackground"
@@ -93,6 +92,40 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/lvProfile">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                style="@style/ImageViewStyleSetting"
+                                android:src="@drawable/ic_block_user" />
+
+                            <com.rap.sheet.utilitys.CustomTextViewRegular
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_16sdp"
+                                android:text="@string/blocked_calls"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/_14ssp" />
+                        </LinearLayout>
+
+                        <View style="@style/Divider" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lvRateApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lvBlockedCall">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -230,26 +263,26 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/lvHelp">
 
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="@dimen/_10sdp"-->
-<!--                            android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                            android:orientation="horizontal">-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:orientation="horizontal">
 
-<!--                            <ImageView-->
-<!--                                style="@style/ImageViewStyleSetting"-->
-<!--                                android:src="@drawable/ic_remove" />-->
+                            <ImageView
+                                style="@style/ImageViewStyleSetting"
+                                android:src="@drawable/ic_remove" />
 
-<!--                            <com.rap.sheet.utilitys.CustomTextViewRegular-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_gravity="center"-->
-<!--                                android:layout_marginLeft="@dimen/_16sdp"-->
-<!--                                android:text="@string/remove_result"-->
-<!--                                android:textColor="@color/colorBlack"-->
-<!--                                android:textSize="@dimen/_14ssp" />-->
-<!--                        </LinearLayout>-->
+                            <com.rap.sheet.utilitys.CustomTextViewRegular
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_16sdp"
+                                android:text="@string/remove_result"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/_14ssp" />
+                        </LinearLayout>
 
                         <View style="@style/Divider" />
                     </LinearLayout>

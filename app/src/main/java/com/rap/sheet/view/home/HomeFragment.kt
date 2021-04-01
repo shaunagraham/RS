@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -15,12 +14,13 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.rap.sheet.R
 import com.rap.sheet.adapter.SearchContactAdapter
 import com.rap.sheet.db.SearchViewModel
@@ -28,6 +28,7 @@ import com.rap.sheet.extenstion.*
 import com.rap.sheet.model.SearchConatct.SearchContactDataModel
 import com.rap.sheet.model.SearchConatct.SearchContactRootModel
 import com.rap.sheet.utilitys.Constant
+import com.rap.sheet.utilitys.Constant.MIXPANEL_API_TOKEN
 import com.rap.sheet.utilitys.InternetConnection
 import com.rap.sheet.utilitys.SwipeHelper
 import com.rap.sheet.utilitys.Utility
@@ -39,6 +40,7 @@ import com.rap.sheet.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.buttonAddContact
 import kotlinx.android.synthetic.main.no_message_view.*
+import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
 
@@ -50,12 +52,13 @@ class HomeFragment : BaseFragment() {
     private var pos = -1
     private lateinit var searchViewModel: SearchViewModel
     private var itemTouchHelper: ItemTouchHelper? = null
-    var isAddNew = false
-    var isAPICall = false
-    var isDetailAPICall = false
-    var isSearch = false
-    private var number: String? = null
-    var search:String? = null
+    private var isAddNew = false
+    private var isAPICall = false
+    private var isDetailAPICall = false
+    private var isSearch = false
+    private var number: String? = ""
+    private var search: String? = ""
+    private var mMixpanel: MixpanelAPI? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -65,6 +68,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mMixpanel = MixpanelAPI.getInstance(requireActivity(), MIXPANEL_API_TOKEN)
         initView()
         listenToViewModel()
         arguments?.apply {
@@ -74,18 +78,24 @@ class HomeFragment : BaseFragment() {
                 textViewSearch.beVisible()
                 recyclerViewContact.beGone()
                 linearLayoutAddNewContact.beGone()
+                imageViewRefresh.beVisible()
                 mViewModel.searchUser(search!!)
             } else {
-
-                Log.i("TAG", "onViewCreated: ")
+                imageViewRefresh.beGone()
                 isSearch = false
             }
         }
+
+        imageViewRefresh.click {
+            mViewModel.searchUser(search!!)
+        }
+
         // mViewModel.searchUser("")
+        Log.i("TAG", "onViewCreated: "+sharedPreferences.uID)
     }
 
     private fun listenToViewModel() {
-        mViewModel.searchResultSuccessResponse.observe(viewLifecycleOwner, Observer {
+        mViewModel.searchResultSuccessResponse.observe(viewLifecycleOwner, {
             try {
                 isAPICall = false
                 val result = it.string()
@@ -99,8 +109,7 @@ class HomeFragment : BaseFragment() {
                 e.printStackTrace()
             }
         })
-        mViewModel.searchResultErrorResponse.observe(viewLifecycleOwner, Observer {
-            Log.d("Hello", it.string())
+        mViewModel.searchResultErrorResponse.observe(viewLifecycleOwner, {
             textViewSearch.beGone()
             linearLayoutNoMessage.gravity = Gravity.TOP
             buttonAddContact.beVisible()
@@ -109,7 +118,7 @@ class HomeFragment : BaseFragment() {
             linearLayoutAddNewContact.beVisible()
         })
 
-        mViewModel.noInternetException.observe(viewLifecycleOwner, Observer {
+        mViewModel.noInternetException.observe(viewLifecycleOwner, {
             if (!InternetConnection.checkConnection(activity)) {
                 resources.getString(R.string.no_internet).showToast(requireContext())
             } else {
@@ -129,7 +138,7 @@ class HomeFragment : BaseFragment() {
             startActivityFromFragment<AddContactActivity>()
         }
 
-        searchViewModel.allSearchData.observe(viewLifecycleOwner, Observer<List<SearchContactDataModel>> { searchDataModels ->
+        searchViewModel.allSearchData.observe(viewLifecycleOwner, { searchDataModels ->
             if (searchDataModels.isNotEmpty()) {
                 if (!isSearch) {
                     searchContactDataModelList.clear()
@@ -143,10 +152,10 @@ class HomeFragment : BaseFragment() {
             } else {
                 if (!isSearch) {
                     recyclerViewContact.beGone()
-                    if(sharedPreferences.isFirstTime){
+                    if (sharedPreferences.isFirstTime) {
                         sharedPreferences.isFirstTime = false
                         linearLayoutAddNewContact.beGone()
-                    }else{
+                    } else {
                         linearLayoutAddNewContact.beVisible()
                     }
                     textViewSearch.beGone()
@@ -198,7 +207,25 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun onItemClick(position: Int) {
-        CheckRecordExists().execute(position)
+        val props = JSONObject()
+        props.put("number", searchContactDataModelList[position].number)
+        mMixpanel?.track("ConatctDetail", props)
+        logEvent("number", searchContactDataModelList[position].number, "ConatctDetail")
+
+//        CheckRecordExists().execute(position)
+        lifecycleScope.executeAsyncTask(onPreExecute = {
+
+        }, doInBackground = {
+            searchViewModel.isExistsData(searchContactDataModelList[position].id)
+        }, onPostExecute = {
+            if (it <= 0) {
+                searchContactDataModelList[pos].lastAdded = Utility.getTodayDate("yyyy/MM/dd HH:mm:ss")
+                searchViewModel.apply {
+                    insert(searchContactDataModelList[pos])
+                }
+            }
+        })
+
         isAddNew = false
         isDetailAPICall = true
         pos = position
@@ -231,7 +258,11 @@ class HomeFragment : BaseFragment() {
                                     removeItem(pos)
                                 }
 
-                                requireActivity().makeSnackBar(coordinatorLayoutRoot, "$name removed from history!", "UNDO", View.OnClickListener {
+                                requireActivity().makeSnackBar(
+                                        coordinatorLayoutRoot,
+                                        "$name removed from history!",
+                                        "UNDO"
+                                ) {
                                     searchContactAdapter?.apply {
                                         restoreItem(deletedItem, deletedIndex)
                                     }
@@ -239,7 +270,7 @@ class HomeFragment : BaseFragment() {
                                         insert(deletedItem)
                                     }
 
-                                })
+                                }
 
                             }
                         }
@@ -251,13 +282,14 @@ class HomeFragment : BaseFragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun setUpSearchContactAdapter() {
         searchContactAdapter?.apply {
             notifyDataSetChanged()
         }
 
         textViewSearch.beGone()
-        Log.d("Hello", searchContactDataModelList.size.toString())
+
         if (!searchContactDataModelList.isNullOrEmpty()) {
             linearLayoutNoMessage.beGone()
             recyclerViewContact.beVisible()
@@ -267,7 +299,6 @@ class HomeFragment : BaseFragment() {
             recyclerViewContact.beGone()
             buttonAddContact.beVisible()
             textViewNoContactMessage.beVisible()
-//            textViewNoContactMessage.text = resources.getString(R.string.no_conatct_yes)
             val stringBuilderPhone = StringBuilder(search!!.replace("-".toRegex(), ""))
             if (stringBuilderPhone.length > 3) {
 
@@ -276,7 +307,7 @@ class HomeFragment : BaseFragment() {
             if (stringBuilderPhone.length > 7) {
                 stringBuilderPhone.insert(7, "-")
             }
-            textViewNoContactMessage.text = resources.getString(R.string.no_result_for)+" "+stringBuilderPhone.toString()
+            textViewNoContactMessage.text = resources.getString(R.string.no_result_for) + " " + stringBuilderPhone.toString()
             linearLayoutAddNewContact.beVisible()
         }
     }
@@ -340,23 +371,23 @@ class HomeFragment : BaseFragment() {
 //        override fun afterTextChanged(editable: Editable) {}
 //    }
 
-    @SuppressLint("StaticFieldLeak")
-    inner class CheckRecordExists : AsyncTask<Int, Void, Int>() {
-
-        override fun onPostExecute(integer: Int) {
-            super.onPostExecute(integer)
-            if (integer <= 0) {
-                searchContactDataModelList[pos].lastAdded = Utility.getTodayDate("yyyy/MM/dd HH:mm:ss")
-                searchViewModel.apply {
-                    insert(searchContactDataModelList[pos])
-                }
-            }
-        }
-
-        override fun doInBackground(vararg params: Int?): Int {
-            return searchViewModel.isExistsData(searchContactDataModelList[params[0]!!].id)
-        }
-    }
+//    @SuppressLint("StaticFieldLeak")
+//    inner class CheckRecordExists : AsyncTask<Int, Void, Int>() {
+//
+//        override fun onPostExecute(integer: Int) {
+//            super.onPostExecute(integer)
+//            if (integer <= 0) {
+//                searchContactDataModelList[pos].lastAdded = Utility.getTodayDate("yyyy/MM/dd HH:mm:ss")
+//                searchViewModel.apply {
+//                    insert(searchContactDataModelList[pos])
+//                }
+//            }
+//        }
+//
+//        override fun doInBackground(vararg params: Int?): Int {
+//            return searchViewModel.isExistsData(searchContactDataModelList[params[0]!!].id)
+//        }
+//    }
 
 //    private val linearLayoutAddNewContactClickListener = View.OnClickListener {
 //        val intent = Intent(activity, AddContactActivity::class.java)

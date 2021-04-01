@@ -2,7 +2,6 @@ package com.rap.sheet.view.contact_detail
 
 import android.Manifest
 import android.content.ActivityNotFoundException
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -11,9 +10,9 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +26,7 @@ import com.rap.sheet.extenstion.*
 import com.rap.sheet.model.ContactDetail.ContactDetailCommentModel
 import com.rap.sheet.model.ContactDetail.ContactDetailRootModel
 import com.rap.sheet.utilitys.*
+import com.rap.sheet.view.add_contact.AddContactActivity
 import com.rap.sheet.view.comment.CommentActivity
 import com.rap.sheet.view.common.BaseActivity
 import com.rap.sheet.viewmodel.ContactDetailViewModel
@@ -37,7 +37,6 @@ import kotlinx.android.synthetic.main.progress_dialog_view.*
 import kotlinx.android.synthetic.main.toolbar_new.*
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.nio.file.Files.delete
 import java.util.*
 
 class ContactDetailActivity : BaseActivity() {
@@ -48,11 +47,17 @@ class ContactDetailActivity : BaseActivity() {
     // TODO: Rename and change types of parameters
     private var contactDetailRootModel: ContactDetailRootModel? = null
     private var id: String? = null
+    private var userName: String? = null
+    private var mobileNo: String? = null
+    private var firstname: String? = null
+    private var lastname: String? = null
+    private var email1: String? = null
+    private var profilePic: String? = null
 
     private var number: String? = null
     private var deletePos: Int = 0
     private var itemTouchHelper: ItemTouchHelper? = null
-    val TAG = ContactDetailActivity::class.java.simpleName
+    private val TAG = ContactDetailActivity::class.java.simpleName
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,32 +77,33 @@ class ContactDetailActivity : BaseActivity() {
 
     private fun listenToViewModel() {
 
-        mViewModel.contactDetailSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.contactDetailSuccessResponse.observe(this, {
             val result: String = it.string()
             contactDetailRootModel = ContactDetailRootModel()
             contactDetailRootModel = Gson().fromJson(result, ContactDetailRootModel::class.java)
             setUpContactDetailsData()
         })
 
-        mViewModel.unAuthorizationException.observe(this, androidx.lifecycle.Observer {
-            displayAlertDialog(desc = resources.getString(R.string.contact_delete_msg), positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    dialog?.apply {
-                        dismiss()
-                        finish()
+        mViewModel.unAuthorizationException.observe(this, {
+            displayAlertDialog(
+                    desc = resources.getString(R.string.contact_delete_msg),
+                    positiveText = resources.getString(android.R.string.ok),
+                    positiveClick = { dialog, _ ->
+                        dialog?.apply {
+                            dismiss()
+                            finish()
+                        }
                     }
-                }
-
-            })
+            )
             progressBar.beGone()
         })
 
-        mViewModel.contactDetailErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.contactDetailErrorResponse.observe(this, {
             progressBar.beGone()
             reLoadAPI()
         })
 
-        mViewModel.deleteCommentSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.deleteCommentSuccessResponse.observe(this, {
             dismissProgressDialog()
             contactDetailCommentModelList.removeAt(deletePos)
             contactCommentAdapter?.apply {
@@ -109,11 +115,11 @@ class ContactDetailActivity : BaseActivity() {
             checkCommentExists()
         })
 
-        mViewModel.deleteCommentErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.deleteCommentErrorResponse.observe(this, {
             dismissProgressDialog()
         })
 
-        mViewModel.noInternetException.observe(this, androidx.lifecycle.Observer {
+        mViewModel.noInternetException.observe(this, {
             if (it == "detail") {
                 progressBar.beGone()
                 if (InternetConnection.checkConnection(this@ContactDetailActivity)) {
@@ -124,24 +130,28 @@ class ContactDetailActivity : BaseActivity() {
                 }
             } else {
                 if (InternetConnection.checkConnection(this)) {
-                    this.displayAlertDialog(desc = resources.getString(R.string.something_wrong), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface?, which: Int) {
-                            dialog?.apply {
-                                this.dismiss()
+                    this.displayAlertDialog(
+                            desc = resources.getString(R.string.something_wrong),
+                            cancelable = false,
+                            positiveText = resources.getString(android.R.string.ok),
+                            positiveClick = { dialog, _ ->
+                                dialog?.apply {
+                                    this.dismiss()
+                                }
                             }
-                        }
-
-                    })
+                    )
                 } else {
-                    this.displayAlertDialog(desc = resources.getString(R.string.no_internet_msg), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface?, which: Int) {
-                            dialog?.apply {
-                                this.dismiss()
-                                finish()
+                    this.displayAlertDialog(
+                            desc = resources.getString(R.string.no_internet_msg),
+                            cancelable = false,
+                            positiveText = resources.getString(android.R.string.ok),
+                            positiveClick = { dialog, _ ->
+                                dialog?.apply {
+                                    this.dismiss()
+                                    finish()
+                                }
                             }
-                        }
-
-                    })
+                    )
                 }
             }
         })
@@ -161,17 +171,23 @@ class ContactDetailActivity : BaseActivity() {
                         object : UnderlayButtonClickListener {
                             override fun onClick(pos: Int) {
                                 deletePos = pos
-                                displayAlertDialog(title = resources.getString(R.string.delete), desc = resources.getString(R.string.delete_comment_msg), positiveText = resources.getString(R.string.yes), positiveClick = DialogInterface.OnClickListener { dialog, _ ->
+                                displayAlertDialog(
+                                        title = resources.getString(R.string.delete),
+                                        desc = resources.getString(R.string.delete_comment_msg),
+                                        positiveText = resources.getString(R.string.yes),
+                                        positiveClick = { dialog, _ ->
+                                            dialog?.apply {
+                                                dismiss()
+                                                launchProgressDialog()
+                                                mViewModel.deleteComment(contactDetailCommentModelList[pos].id.toString())
+                                            }
+                                        },
+                                        negativeText = this@ContactDetailActivity.resources.getString(R.string.cancel)
+                                ) { dialog, _ ->
                                     dialog?.apply {
                                         dismiss()
-                                        launchProgressDialog()
-                                        mViewModel.deleteComment(contactDetailCommentModelList[pos].id.toString())
                                     }
-                                }, negativeText = resources.getString(R.string.cancel), negativeClick = DialogInterface.OnClickListener { dialog, which ->
-                                    dialog?.apply {
-                                        dismiss()
-                                    }
-                                })
+                                }
                             }
                         }
                 ))
@@ -203,7 +219,7 @@ class ContactDetailActivity : BaseActivity() {
 //            bundle.putString("id", contactDetailRootModel?.details?.id)
 //            startActivityFromActivityWithBundleCode<CommentActivity>(bundle, Constant.UPDATE_COMMENT)
 //        }
-        floatingButtonShare.click {
+        imageViewShare.click {
             contactDetailRootModel?.apply {
                 this.details?.apply {
                     val sendIntent = Intent()
@@ -216,13 +232,13 @@ class ContactDetailActivity : BaseActivity() {
             }
         }
 
-        floatingButtonMessage.click {
+        imageViewUser.click {
             contactDetailRootModel?.details?.apply {
                 Utility.callUserSMS(this@ContactDetailActivity, this.number)
             }
         }
 
-        floatingButtonCall.click {
+        imageViewCall.click {
             contactDetailRootModel?.details?.apply {
 
                 val permissionCheck: Int = ContextCompat.checkSelfPermission(this@ContactDetailActivity, Manifest.permission.CALL_PHONE)
@@ -234,7 +250,7 @@ class ContactDetailActivity : BaseActivity() {
             }
         }
 
-        floatingButtonSave.click {
+        imageViewChat.click {
             contactDetailRootModel?.details?.apply {
                 Utility.saveNewNumber(this@ContactDetailActivity, this.number, this.firstName + " " + this.lastName)
             }
@@ -267,7 +283,7 @@ class ContactDetailActivity : BaseActivity() {
                 } else {
                     Uri.parse("http://instagram.com/_u/$instagramUser")
                 }
-                val likeIng: Intent = Intent(Intent.ACTION_VIEW, uri)
+                val likeIng = Intent(Intent.ACTION_VIEW, uri)
                 likeIng.setPackage("com.instagram.android")
                 try {
                     startActivity(likeIng)
@@ -305,6 +321,54 @@ class ContactDetailActivity : BaseActivity() {
             constraintLayoutNoInternet.beGone()
             launchContactDetailAPI()
         }
+
+        textViewBlocked.click {
+            setTextColor(R.drawable.background_call, R.color.text_color_call, R.drawable.background_call, R.color.text_color_call, R.drawable.selected_item_color, R.color.colorWhite)
+
+            val desc: String = "Do you want to block " + userName + " and " + mobileNo
+            this.displayAlertDialog(
+                    desc = desc,
+                    cancelable = false,
+                    positiveText = resources.getString(R.string.yes),
+                    positiveClick = { dialog, _ ->
+                        dialog?.apply {
+                            this.dismiss()
+                        }
+                    },
+                    negativeText = resources.getString(R.string.no)
+
+            ) { dialog, _ ->
+                dialog?.apply {
+                    this.dismiss()
+                }
+            }
+        }
+
+        textViewUpdate.click {
+            setTextColor(R.drawable.selected_item_color, R.color.colorWhite, R.drawable.background_call, R.color.text_color_call, R.drawable.background_call, R.color.text_color_call)
+            val bundle = Bundle()
+            bundle.putString("firstName", firstname)
+            bundle.putString("lastName", lastname)
+            bundle.putString("profile", profilePic)
+            bundle.putString("email", email1)
+            bundle.putString("mobile", mobileNo)
+            bundle.putBoolean("addContact", true)
+            startActivityInline<AddContactActivity>(bundle)
+        }
+
+        textViewReport.click {
+            setTextColor(R.drawable.background_call, R.color.text_color_call, R.drawable.selected_item_color, R.color.colorWhite, R.drawable.background_call, R.color.text_color_call)
+        }
+
+    }
+
+    private fun setTextColor(selectedItemColor: Int, colorWhite: Int, backgroundCall: Int, textColorCall: Int, backgroundCall1: Int, textColorCall1: Int) {
+        textViewUpdate.background = ResourcesCompat.getDrawable(resources, selectedItemColor, null)
+        textViewUpdate.setTextColor(ResourcesCompat.getColor(resources, colorWhite, null))
+        textViewReport.background = ResourcesCompat.getDrawable(resources, backgroundCall, null)
+        textViewReport.setTextColor(ResourcesCompat.getColor(resources, textColorCall, null))
+        textViewBlocked.background = ResourcesCompat.getDrawable(resources, backgroundCall1, null)
+        textViewBlocked.setTextColor(ResourcesCompat.getColor(resources, textColorCall1, null))
     }
 
     private fun initView() {
@@ -331,7 +395,11 @@ class ContactDetailActivity : BaseActivity() {
         relativeLayoutProfileRoot.beVisible()
         contactDetailRootModel?.apply {
             this.details?.apply {
-                textViewContactName.text = Utility.capitalize(this.firstName + " " + this.lastName)
+                userName = Utility.capitalize(this.firstName + " " + this.lastName)
+                firstname = this.firstName
+                lastname = this.lastName
+
+                textViewContactName.text = userName
                 val stringBuilderPhone: StringBuilder = StringBuilder(this.number.toString().replace("-".toRegex(), ""))
                 if (stringBuilderPhone.length > 3) {
                     stringBuilderPhone.insert(3, "-")
@@ -342,6 +410,7 @@ class ContactDetailActivity : BaseActivity() {
 
                 if (this.email != null && this.email != "") {
                     textViewContactEmail.text = this.email
+                    email1 = this.email
                     textViewContactEmail.beVisible()
                 } else {
                     textViewContactEmail.beInVisible()
@@ -349,6 +418,7 @@ class ContactDetailActivity : BaseActivity() {
 
                 if (this.profile != null && this.profile != "") {
                     imageViewProfile.beVisible()
+                    profilePic = this.profile
                     Glide.with(this@ContactDetailActivity).load(BuildConfig.IMAGE_PATH + this.profile).into((imageViewProfile)!!)
                 } else {
                     imageViewProfile.beGone()
@@ -373,7 +443,9 @@ class ContactDetailActivity : BaseActivity() {
 //                } else {
 //                    imageViewLinkedIn.beGone()
 //                }
-                textViewContactNumber.text = stringBuilderPhone.toString()
+                mobileNo = stringBuilderPhone.toString()
+                textViewContactNumber.text = mobileNo
+
             }
             contactDetailCommentModelList.clear()
             this.comments?.apply {
@@ -409,19 +481,23 @@ class ContactDetailActivity : BaseActivity() {
     }
 
     private fun reLoadAPI() {
-        displayAlertDialog(desc = resources.getString(R.string.something_wrong), positiveText = resources.getString(R.string.retry), positiveClick = DialogInterface.OnClickListener { dialog, which ->
+        displayAlertDialog(
+                desc = resources.getString(R.string.something_wrong),
+                positiveText = resources.getString(R.string.retry),
+                positiveClick = { dialog, _ ->
+                    dialog?.apply {
+                        dismiss()
+                        progressBar.beVisible()
+                        launchContactDetailAPI()
+                    }
+                },
+                negativeText = resources.getString(R.string.cancel)
+        ) { dialog, _ ->
             dialog?.apply {
                 dismiss()
-                progressBar.beVisible()
-                launchContactDetailAPI()
             }
-        }, negativeText = resources.getString(R.string.cancel), negativeClick = DialogInterface.OnClickListener { dialog, which ->
-            dialog?.apply {
-                dismiss()
-            }
-        })
+        }
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -431,7 +507,6 @@ class ContactDetailActivity : BaseActivity() {
             Log.d("TAG", "Call Permission Not Granted")
         }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -482,7 +557,6 @@ class ContactDetailActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         launchContactDetailAPI()
-
     }
 
 }

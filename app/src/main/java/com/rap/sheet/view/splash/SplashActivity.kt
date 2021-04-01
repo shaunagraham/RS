@@ -1,13 +1,10 @@
 package com.rap.sheet.view.splash
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
-import android.util.Log
-import androidx.lifecycle.Observer
-import com.android.billingclient.api.*
 import com.rap.sheet.R
 import com.rap.sheet.application.BaseApplication
 import com.rap.sheet.extenstion.*
@@ -18,18 +15,11 @@ import com.rap.sheet.viewmodel.SplashViewModel
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class SplashActivity : BaseActivity() {
-    //        implements BillingProcessor.IBillingHandler {
     private val mViewModel: SplashViewModel by viewModel()
-    private var handler: Handler = Handler()
+    private lateinit var handler: Handler
     private var runnable: Runnable? = null
-    val TAG = SplashActivity::class.java.simpleName
 
-    //    val skuList: MutableList<String> = ArrayList()
-
-
-    //    private BillingProcessor bp;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -37,9 +27,9 @@ class SplashActivity : BaseActivity() {
             finish()
             return
         }
-
-        // bp = new BillingProcessor(this, BuildConfig.LICENSE_KEY, this);
-//        bp.initialize();
+        Looper.getMainLooper()?.let {
+            handler = Handler(it)
+        }
 
         BaseApplication.adsRemovePref?.apply {
             this.clearUserDataPref()
@@ -50,55 +40,54 @@ class SplashActivity : BaseActivity() {
         checkUserRegisterOrNot(uid)
         listenToViewModel()
 
-//        skuList.add(BuildConfig.PRODUCT_ID)
-//        Log.i(TAG, "setView: " + skuList.size)
-
     }
 
     private fun listenToViewModel() {
-        mViewModel.makeJsonForCreateUser.observe(this, Observer {
+        mViewModel.makeJsonForCreateUser.observe(this, {
             mViewModel.createUser(it)
         })
 
-        mViewModel.createUserSuccessResponse.observe(this, Observer {
+        mViewModel.createUserSuccessResponse.observe(this, {
             val result: String = it.string()
             val jsonObjectData = JSONObject(result)
             val jsonObjectInfo = JSONObject(jsonObjectData.getString("info"))
             sharedPreferences.userID = jsonObjectInfo.getString("id")
             sharedPreferences.email = jsonObjectInfo.getString("email")
             sharedPreferences.uID = jsonObjectInfo.getString("uuid")
-            Log.i(TAG, "listenToViewModel: $jsonObjectInfo")
             initialize(false)
         })
-        mViewModel.createUserErrorResponse.observe(this, Observer {
-            Log.d("Hello", it.string())
+        mViewModel.createUserErrorResponse.observe(this, {
             initialize(false)
         })
-        mViewModel.unAuthorizationException.observe(this, Observer {
-            Log.d("Hello", it.toString())
+        mViewModel.unAuthorizationException.observe(this, {
             initialize(false)
         })
 
-        mViewModel.noInternetException.observe(this, Observer {
+        mViewModel.noInternetException.observe(this, {
             if (InternetConnection.checkConnection(this)) {
-                this.displayAlertDialog(desc = resources.getString(R.string.something_wrong), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog?.apply {
-                            this.dismiss()
-                            finish()
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.something_wrong),
+                        cancelable = false,
+                        positiveText = resources.getString(android.R.string.ok),
+                        positiveClick = { dialog, _ ->
+                            dialog?.apply {
+                                this.dismiss()
+                                finish()
+                            }
                         }
-                    }
-
-                })
+                )
             } else {
-                this.displayAlertDialog(desc = resources.getString(R.string.no_internet_msg), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog?.apply {
-                            this.dismiss()
-                            finish()
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.no_internet_msg),
+                        cancelable = false,
+                        positiveText = resources.getString(android.R.string.ok),
+                        positiveClick = { dialog, _ ->
+                            dialog?.apply {
+                                this.dismiss()
+                                finish()
+                            }
                         }
-                    }
-                })
+                )
             }
         })
     }

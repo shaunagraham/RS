@@ -9,7 +9,6 @@ import com.rap.sheet.utilitys.Constant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 
 class FeedbackViewModel constructor(private val restInterface: RestInterface) : BaseViewModel() {

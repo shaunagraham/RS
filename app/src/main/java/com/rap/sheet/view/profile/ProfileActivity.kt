@@ -1,59 +1,44 @@
 package com.rap.sheet.view.profile
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.rap.sheet.BuildConfig
 import com.rap.sheet.R
-import com.rap.sheet.adapter.ContactCommentAdapter
-import com.rap.sheet.databinding.ActivityProfileBinding
 import com.rap.sheet.extenstion.*
 import com.rap.sheet.extenstion.uID
-import com.rap.sheet.model.ContactDetail.ContactDetailCommentModel
-import com.rap.sheet.model.ContactDetail.ContactDetailRootModel
-import com.rap.sheet.model.MyContact.MyContactRootModel
 import com.rap.sheet.model.Profile.GetProfileData
 import com.rap.sheet.model.Profile.InfoX
-import com.rap.sheet.utilitys.Constant
 import com.rap.sheet.utilitys.FilePathHelper
 import com.rap.sheet.utilitys.InternetConnection
-import com.rap.sheet.utilitys.Utility
 import com.rap.sheet.view.common.BaseActivity
-import com.rap.sheet.view.contact_detail.ContactDetailActivity
-import com.rap.sheet.viewmodel.AddContactViewModel
-import com.rap.sheet.viewmodel.ContactDetailViewModel
 import com.rap.sheet.viewmodel.GetProfileViewModel
 import com.rap.sheet.viewmodel.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_add_number.*
-import kotlinx.android.synthetic.main.activity_add_number.imageViewProfile
 import kotlinx.android.synthetic.main.activity_contact_detail.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_profile.constraintLayoutNoInternet
 import kotlinx.android.synthetic.main.no_internet_view.*
 import kotlinx.android.synthetic.main.progress_dialog_view.*
 import kotlinx.android.synthetic.main.toolbar_new.*
+import kotlinx.android.synthetic.main.top_view_layout.view.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.json.JSONException
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pub.devrel.easypermissions.EasyPermissions
@@ -62,12 +47,12 @@ import java.io.IOException
 
 class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
-    private lateinit var binding: ActivityProfileBinding
+    //    private lateinit var binding: ActivityProfileBinding
     private var selectedImageFile: File? = null
-    var filePathHelper: FilePathHelper? = null
+    private var filePathHelper: FilePathHelper? = null
 
     private var media: MultipartBody.Part? = null
-    val TAG = ProfileActivity::class.java.simpleName
+    private val TAG = ProfileActivity::class.java.simpleName
 
     //    private var contactDetailRootModel: GetProfileData? = null
     private var profileList: MutableList<InfoX> = mutableListOf()
@@ -76,7 +61,7 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
+        setContentView(R.layout.activity_profile)
         filePathHelper = FilePathHelper()
         setView()
         listenToViewModelProfile()
@@ -86,7 +71,8 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
     private fun listenToViewModelProfile() {
 
-        mViewModelProfile.getProfileSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModelProfile.getProfileSuccessResponse.observe(this, {
+            profileList.clear()
             val result: String = it.string()
             val getProfileData = Gson().fromJson(result, GetProfileData::class.java)
             getProfileData?.info?.apply {
@@ -97,53 +83,56 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
             setUpContactDetailsData()
         })
 
-        mViewModel.unAuthorizationException.observe(this, androidx.lifecycle.Observer {
-            displayAlertDialog(desc = resources.getString(R.string.contact_delete_msg), positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    dialog?.apply {
-                        dismiss()
-                        finish()
+        mViewModel.unAuthorizationException.observe(this, {
+            displayAlertDialog(
+                    desc = resources.getString(R.string.contact_delete_msg),
+                    positiveText = resources.getString(android.R.string.ok),
+                    positiveClick = { dialog, _ ->
+                        dialog?.apply {
+                            dismiss()
+                            finish()
+                        }
                     }
-                }
-
-            })
+            )
             dismissProgressDialog()
 
         })
 
-        mViewModelProfile.getProfileErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModelProfile.getProfileErrorResponse.observe(this, {
             dismissProgressDialog()
             reLoadAPI()
         })
 
-        mViewModelProfile.noInternetException.observe(this, androidx.lifecycle.Observer {
+        mViewModelProfile.noInternetException.observe(this, {
             if (it == "detail") {
                 progressBar.beGone()
                 if (InternetConnection.checkConnection(this@ProfileActivity)) {
                     reLoadAPI()
-                } else {
-
                 }
             } else {
                 if (InternetConnection.checkConnection(this)) {
-                    this.displayAlertDialog(desc = resources.getString(R.string.something_wrong), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface?, which: Int) {
-                            dialog?.apply {
-                                this.dismiss()
+                    this.displayAlertDialog(
+                            desc = resources.getString(R.string.something_wrong),
+                            cancelable = false,
+                            positiveText = resources.getString(android.R.string.ok),
+                            positiveClick = { dialog, _ ->
+                                dialog?.apply {
+                                    this.dismiss()
+                                }
                             }
-                        }
-
-                    })
+                    )
                 } else {
-                    this.displayAlertDialog(desc = resources.getString(R.string.no_internet_msg), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface?, which: Int) {
-                            dialog?.apply {
-                                this.dismiss()
-                                finish()
+                    this.displayAlertDialog(
+                            desc = resources.getString(R.string.no_internet_msg),
+                            cancelable = false,
+                            positiveText = resources.getString(android.R.string.ok),
+                            positiveClick = { dialog, _ ->
+                                dialog?.apply {
+                                    this.dismiss()
+                                    finish()
+                                }
                             }
-                        }
-
-                    })
+                    )
                 }
             }
         })
@@ -154,10 +143,8 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 //        linearLayoutOtherOption.beVisible()
 //        floatingButtonComment!!.show()
         dismissProgressDialog()
-        if (profileList != null) {
-            Log.i(TAG, "setUpContactDetailsData: " + profileList.get(0).first_name)
-            editTextFirstNameProfile.setText(profileList.get(0).first_name)
-            editTextLastNameProfile.setText(profileList.get(0).last_name)
+        editTextFirstNameProfile.setText(profileList.get(0).first_name)
+        editTextLastNameProfile.setText(profileList.get(0).last_name)
 
 //            val stringBuilderPhone: StringBuilder = StringBuilder(profileList.get(0).phone.toString().replace("-".toRegex(), ""))
 //            if (stringBuilderPhone.length > 3) {
@@ -167,47 +154,68 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 //                stringBuilderPhone.insert(7, "-")
 //            }
 
-            if (profileList.get(0).email != null && this.profileList.get(0).email != "") {
-                editTextEmailProfile.setText(profileList.get(0).email)
-
-            } else {
-            }
-
-            if (profileList.get(0).profile != null && profileList.get(0).profile != "") {
-                Glide.with(this@ProfileActivity).load(BuildConfig.IMAGE_PATH + profileList.get(0).profile).into((imageViewProfileadd)!!)
-            } else {
-
-            }
-
-            editTextPhoneNumberProfile.setText(profileList.get(0).phone)
+        if (this.profileList.get(0).email != "") {
+            editTextEmailProfile.setText(profileList.get(0).email)
         }
+
+        if (profileList.get(0).profile != "") {
+            Glide.with(this@ProfileActivity).load(BuildConfig.IMAGE_PATH + profileList.get(0).profile).into((imageViewProfileadd)!!)
+        }
+
+        if (this.profileList.get(0).weblink != "") {
+            editTextWebsiteProfile.setText(profileList.get(0).weblink)
+        }
+
+        if (this.profileList.get(0).instagram != "") {
+            editTextInstaProfile.setText(profileList.get(0).instagram)
+        }
+
+        if (this.profileList.get(0).twitter != "") {
+            editTextTwitterProfile.setText(profileList.get(0).twitter)
+        }
+
+        if (this.profileList.get(0).facebook != "") {
+            editTextFacebookProfile.setText(profileList.get(0).facebook)
+        }
+
+        if (this.profileList.get(0).linkedin != "") {
+            editTextLinkedInProfile.setText(profileList.get(0).linkedin)
+        }
+
+        editTextPhoneNumberProfile.setText(profileList.get(0).phone)
 
     }
 
 
     private fun reLoadAPI() {
-        displayAlertDialog(desc = resources.getString(R.string.something_wrong), positiveText = resources.getString(R.string.retry), positiveClick = DialogInterface.OnClickListener { dialog, which ->
-            dialog?.apply {
-                dismiss()
-                launchContactDetailAPI()
-                launchProgressDialog()
-            }
-        }, negativeText = resources.getString(R.string.cancel), negativeClick = DialogInterface.OnClickListener { dialog, which ->
-            dialog?.apply {
-                dismiss()
-            }
-        })
+        displayAlertDialog(
+                desc = resources.getString(R.string.something_wrong),
+                positiveText = resources.getString(R.string.retry),
+                positiveClick = { dialog, _ ->
+                    dialog?.apply {
+                        dismiss()
+                        launchContactDetailAPI()
+                        launchProgressDialog()
+                    }
+                },
+                negativeText = resources.getString(R.string.cancel),
+                negativeClick = { dialog, _ ->
+                    dialog?.apply {
+                        dismiss()
+                    }
+                }
+        )
     }
 
     private fun launchContactDetailAPI() {
         launchProgressDialog()
-        mViewModelProfile.getUserProfile(sharedPreferences.uID.toString())
+        mViewModelProfile.getUserProfile(sharedPreferences.uID)
 //        contactDetails = restInterface!!.contactDetails(id)
 //        contactDetails!!.enqueue(contactDetailsCallBack)
     }
 
     private fun listenToViewModel() {
-        mViewModel.uploadProfileSuccessResponse.observe(this, Observer {
+        mViewModel.uploadProfileSuccessResponse.observe(this, {
             dismissProgressDialog()
             val result: String = it.string()
             val jsonObjectResult = JSONObject(result)
@@ -219,47 +227,50 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 //            }, 1000)
 
         })
-        mViewModel.uploadProfileErrorResponse.observe(this, Observer {
+        mViewModel.uploadProfileErrorResponse.observe(this, {
             dismissProgressDialog()
             finish()
-            Log.i(TAG, "listenToViewModel:error ")
         })
-        mViewModel.noInternetException.observe(this, Observer {
+        mViewModel.noInternetException.observe(this, {
             dismissProgressDialog()
             if (InternetConnection.checkConnection(this)) {
-                this.displayAlertDialog(desc = resources.getString(R.string.something_wrong), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog?.apply {
-                            this.dismiss()
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.something_wrong),
+                        cancelable = false,
+                        positiveText = resources.getString(android.R.string.ok),
+                        positiveClick = { dialog, _ ->
+                            dialog?.apply {
+                                this.dismiss()
+                            }
                         }
-                    }
-
-                })
+                )
             } else {
-                this.displayAlertDialog(desc = resources.getString(R.string.no_internet_msg), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog?.apply {
-                            this.dismiss()
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.no_internet_msg),
+                        cancelable = false,
+                        positiveText = resources.getString(android.R.string.ok),
+                        positiveClick = { dialog, _ ->
+                            dialog?.apply {
+                                this.dismiss()
 
+                            }
                         }
-                    }
-
-                })
+                )
             }
         })
     }
 
     private fun setView() {
         setUpToolBar()
-        binding.buttonCancel.click {
+        buttonClose.click {
             onBackPressed()
         }
 
-        binding.imageViewProfileadd.click {
+        imageViewProfileadd.click {
             openImageChooseDialog()
         }
 
-        binding.buttonAdd.click {
+        buttonSave.click {
             if (editTextFirstNameProfile!!.text.toString().trim { it <= ' ' }.isEmpty()) {
                 makeSnackBar(editTextFirstNameProfile, resources.getString(R.string.first_name_error_msg))
                 editTextFirstNameProfile!!.requestFocus()
@@ -289,21 +300,26 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
         val firstName: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextFirstNameProfile!!.text.toString().trim { it <= ' ' })
         val lastname: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextLastNameProfile!!.text.toString().trim { it <= ' ' })
         val email: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextEmailProfile!!.text.toString().trim { it <= ' ' })
+        val weblink: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextWebsiteProfile!!.text.toString().trim { it <= ' ' })
+        val instagram: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextInstaProfile!!.text.toString().trim { it <= ' ' })
+        val twitter: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextTwitterProfile!!.text.toString().trim { it <= ' ' })
+        val faceBook: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextFacebookProfile!!.text.toString().trim { it <= ' ' })
+        val linkdin: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextLinkedInProfile!!.text.toString().trim { it <= ' ' })
         val uuid: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), sharedPreferences.uID.trim { it <= ' ' })
-        Log.i(TAG, "callUplaodProfile: " + media)
+
         if (media != null) {
-            mViewModel.uploadProfile(uuid, firstName, lastname, number, email, media!!)
+            mViewModel.uploadProfile(uuid, firstName, lastname, number, email,weblink,instagram,twitter,faceBook,linkdin, media!!)
         } else {
-            mViewModel.uploadProfileWithout(uuid, firstName, lastname, number, email)
+            mViewModel.uploadProfileWithout(uuid, firstName, lastname, number, email,weblink,instagram,twitter,faceBook,linkdin)
         }
 
     }
 
     private fun setUpToolBar() {
-        binding.toolbar.imgClose.click {
+        toolbar1.imgClose.click {
             onBackPressed()
         }
-        binding.toolbar.tvTitle.text = resources.getString(R.string.my_profile)
+        toolbar1.tvTitle.text = resources.getString(R.string.my_profile)
     }
 
     private fun openImageChooseDialog() {
@@ -322,6 +338,7 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
         private val CAMERA_CODE: Int = 102
     }
 
+    @SuppressLint("InflateParams")
     private fun openBottomSheetDialog() {
         val chooseImageDialog = BottomSheetDialog(this@ProfileActivity)
         val chooseImageView: View = window.layoutInflater.inflate(R.layout.dialog_choose_option, null)
@@ -331,7 +348,7 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
         val textViewCancel: TextView = chooseImageView.findViewById(R.id.textViewCancel)
         textViewCamera.click {
             chooseImageDialog.dismiss()
-            val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             selectedImageFile = createTemporaryFile(".png")
             selectedImageFile!!.delete()
             val mImageUri: Uri = FileProvider.getUriForFile(this@ProfileActivity,
@@ -385,7 +402,6 @@ class ProfileActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
         } else if (requestCode == CAMERA_CODE && resultCode == Activity.RESULT_OK) {
             if (selectedImageFile != null) {
                 if (selectedImageFile!!.length() > 0) {
-                    Log.i(TAG, "onActivityResult:11 " + selectedImageFile!!.absoluteFile)
                     Glide.with(this@ProfileActivity).load(selectedImageFile!!.absolutePath).into((imageViewProfileadd)!!)
                     val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/*"), selectedImageFile)
                     media = MultipartBody.Part.createFormData("profile", selectedImageFile?.name, requestBody)

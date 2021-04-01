@@ -18,15 +18,14 @@ open class BaseViewModel : ViewModel() {
     fun apiException(type: String = ""): CoroutineExceptionHandler {
 
         return CoroutineExceptionHandler { _, throwable ->
-            Log.d("Hello",throwable.message.toString())
+            Log.d("Hello", throwable.message.toString())
             when (throwable) {
                 is SocketTimeoutException -> timeOutException.postValue(true)
                 is ConnectException, is HttpException, is UnknownHostException -> noInternetException.postValue(
-                    type
+                        type
                 )
             }
         }
     }
-
 
 }

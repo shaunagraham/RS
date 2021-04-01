@@ -1,8 +1,8 @@
 package com.rap.sheet.view.add_contact
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
@@ -14,13 +14,11 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.FileProvider
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.rap.sheet.BuildConfig
 import com.rap.sheet.R
-import com.rap.sheet.databinding.ActivityAddNumberBinding
 import com.rap.sheet.extenstion.click
 import com.rap.sheet.extenstion.displayAlertDialog
 import com.rap.sheet.extenstion.makeSnackBar
@@ -28,11 +26,13 @@ import com.rap.sheet.extenstion.userID
 import com.rap.sheet.utilitys.Constant
 import com.rap.sheet.utilitys.FilePathHelper
 import com.rap.sheet.utilitys.InternetConnection
-import com.rap.sheet.utilitys.Utility
 import com.rap.sheet.view.common.BaseActivity
 import com.rap.sheet.view.contact_detail.ContactDetailActivity
 import com.rap.sheet.viewmodel.AddContactViewModel
 import kotlinx.android.synthetic.main.activity_add_number.*
+import kotlinx.android.synthetic.main.activity_add_number.imageViewProfile
+import kotlinx.android.synthetic.main.toolbar_new.*
+import kotlinx.android.synthetic.main.top_view_layout.view.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -46,21 +46,37 @@ import java.io.IOException
 
 class AddContactActivity : BaseActivity(), PermissionCallbacks {
 
+    private var addContact: Boolean = false
     private val mViewModel: AddContactViewModel by viewModel()
     private var id: String? = null
-
-    //    private AdView adViewContact;
     private var selectedImageFile: File? = null
-    var filePathHelper: FilePathHelper? = null
-
+    private var filePathHelper: FilePathHelper? = null
+    private var mobileNo: String? = null
+    private var firstName: String? = null
+    private var lastName: String? = null
+    private var email: String? = null
+    private var profile: String? = null
     private var media: MultipartBody.Part? = null
-    private lateinit var binding: ActivityAddNumberBinding
+//    private lateinit var binding: ActivityAddNumberBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_number)
         //        setContentView(R.layout.activity_add_number);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_number)
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_number)
         filePathHelper = FilePathHelper()
 
+        getIntentData()
+        if (addContact) {
+            buttonAdd.text = resources.getString(R.string.save)
+            editTextFirstName.setText(firstName)
+            editTextLastName.setText(lastName)
+            editTextPhoneNumber.setText(mobileNo)
+            editTextEmail.setText(email)
+            Glide.with(this).load(BuildConfig.IMAGE_PATH + this.profile).placeholder(ResourcesCompat.getDrawable(resources, R.drawable.ic_user_new, null)).into((imageViewProfile)!!)
+        } else {
+            buttonAdd.text = resources.getString(R.string.Add)
+        }
         initView()
         setUpToolBar()
         viewClickListener()
@@ -68,8 +84,19 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
         //checkAdsRemoveOrNot();
     }
 
+    private fun getIntentData() {
+        intent.extras?.apply {
+            addContact = this.getBoolean("addContact", false)
+            firstName = getString("firstName")
+            lastName = getString("lastName")
+            profile = getString("profile")
+            email = getString("email")
+            mobileNo = getString("mobile")
+        }
+    }
+
     private fun listenToViewModel() {
-        mViewModel.addContactSuccessResponse.observe(this, Observer {
+        mViewModel.addContactSuccessResponse.observe(this, {
             dismissProgressDialog()
             try {
                 val result: String = it.string()
@@ -93,7 +120,7 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
                 e.printStackTrace()
             }
         })
-        mViewModel.addContactErrorResponse.observe(this, Observer {
+        mViewModel.addContactErrorResponse.observe(this, {
             dismissProgressDialog()
             try {
                 val result: String = it.string()
@@ -108,27 +135,31 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
         })
 
 
-        mViewModel.noInternetException.observe(this, Observer {
+        mViewModel.noInternetException.observe(this, {
             dismissProgressDialog()
             if (InternetConnection.checkConnection(this)) {
-                this.displayAlertDialog(desc = resources.getString(R.string.something_wrong), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog?.apply {
-                            this.dismiss()
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.something_wrong),
+                        cancelable = false,
+                        positiveText = resources.getString(android.R.string.ok),
+                        positiveClick = { dialog, _ ->
+                            dialog?.apply {
+                                this.dismiss()
+                            }
                         }
-                    }
-
-                })
+                )
             } else {
-                this.displayAlertDialog(desc = resources.getString(R.string.no_internet_msg), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog?.apply {
-                            this.dismiss()
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.no_internet_msg),
+                        cancelable = false,
+                        positiveText = resources.getString(android.R.string.ok),
+                        positiveClick = { dialog, _ ->
+                            dialog?.apply {
+                                this.dismiss()
 
+                            }
                         }
-                    }
-
-                })
+                )
             }
         })
     }
@@ -143,6 +174,7 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
     //            loadBannerAds();
     //        }
     //    }
+
     // Initialling  view
     private fun initView() {
         editTextPhoneNumber.addTextChangedListener(MyPhoneTextWatcher())
@@ -150,8 +182,8 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
 
     // For set up toolbar
     private fun setUpToolBar() {
-        binding.topView.imgClose.click { onBackPressed() }
-        binding.topView.tvTitle.text = resources.getString(R.string.add_contact)
+        topView.imgClose.click { onBackPressed() }
+        topView.tvTitle.text = resources.getString(R.string.add_contact)
     }
 
     private fun viewClickListener() {
@@ -160,16 +192,20 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
         }
         buttonAdd.click {
             if (editTextFirstName!!.text.toString().trim { it <= ' ' }.isEmpty()) {
-                makeSnackBar( coordinatorLayoutRoot, resources.getString(R.string.first_name_error_msg))
+                makeSnackBar(coordinatorLayoutRoot, resources.getString(R.string.first_name_error_msg))
                 editTextFirstName!!.requestFocus()
             } else if (editTextPhoneNumber!!.text.toString().trim { it <= ' ' }.isEmpty()) {
                 makeSnackBar(coordinatorLayoutRoot, resources.getString(R.string.phone_name_error_msg))
                 editTextPhoneNumber!!.requestFocus()
             } else {
                 if (InternetConnection.checkConnection(this@AddContactActivity)) {
-                    callAddNewContactAPI()
+                    if (addContact) {
+                        ///update profile API
+                    } else {
+                        callAddNewContactAPI()
+                    }
                 } else {
-                    makeSnackBar( coordinatorLayoutRoot, resources.getString(R.string.no_internet))
+                    makeSnackBar(coordinatorLayoutRoot, resources.getString(R.string.no_internet))
                 }
             }
         }
@@ -206,6 +242,7 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun openBottomSheetDialog() {
         val chooseImageDialog = BottomSheetDialog(this@AddContactActivity)
         val chooseImageView: View = window.layoutInflater.inflate(R.layout.dialog_choose_option, null)
@@ -215,7 +252,7 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
         val textViewCancel: TextView = chooseImageView.findViewById(R.id.textViewCancel)
         textViewCamera.click {
             chooseImageDialog.dismiss()
-            val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             selectedImageFile = createTemporaryFile(".png")
             selectedImageFile!!.delete()
             val mImageUri: Uri = FileProvider.getUriForFile(this@AddContactActivity,
@@ -273,14 +310,16 @@ class AddContactActivity : BaseActivity(), PermissionCallbacks {
             }
         }
 
-        override fun afterTextChanged(editable: Editable) {}
+        override fun afterTextChanged(editable: Editable) {
+            ///
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constant.UPDATE_COMMENT) {
             if (data != null) {
-                val intent: Intent = Intent()
+                val intent = Intent()
                 intent.putExtra("id", id)
                 setResult(Constant.UPDATE_COMMENT, intent)
                 finish()

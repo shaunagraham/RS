@@ -80,7 +80,7 @@
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_32sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="@string/search_no"
+                android:text="@string/paste_number"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 app:cornerRadius="@dimen/_18sdp"

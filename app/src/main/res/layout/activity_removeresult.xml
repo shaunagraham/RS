@@ -10,7 +10,7 @@
         tools:context=".view.feedback.FeedbackActivity">
 
         <include
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar4"
             layout="@layout/top_view_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -23,7 +23,7 @@
             app:hintTextColor="@color/colorAccent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar4">
 
             <com.rap.sheet.utilitys.CustomEditText
                 android:id="@+id/editTextPhoneNumber"

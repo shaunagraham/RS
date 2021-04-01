@@ -43,6 +43,7 @@
 
     <!--Add New Number String-->
     <string name="first_name">First Name</string>
+    <string name="add_first_name">Add First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">Email</string>
     <string name="phone_number">Phone Number</string>
@@ -112,13 +113,23 @@
     <string name="searching">Searching...</string>
     <string name="log">Log</string>
     <string name="clear">Clear</string>
-    <string name="paste_number">Paste Number</string>
+    <string name="paste_number">Paste</string>
     <string name="add_comment">Add Comment</string>
     <string name="edit">Edit</string>
     <string name="empty_message">Please enter message</string>
     <string name="send">Send</string>
-<!--    <string name="interstitial_full_screen">ca-app-pub-3940256099942544/1033173712</string>-->
-<!--    <string name="interstitial_full_screen">ca-app-pub-7827617590051418/3553334765</string>-->
+    <!--    <string name="interstitial_full_screen">ca-app-pub-3940256099942544/1033173712</string>-->
+    <!--    <string name="interstitial_full_screen">ca-app-pub-7827617590051418/3553334765</string>-->
     <string name="no_result_for">No Results for</string>
     <string name="product_id_key">rapsheet_2021</string>
+    <string name="blocked_calls">Blocked Calls</string>
+    <string name="twitter_link">Twitter Link</string>
+    <string name="update">Update</string>
+    <string name="blocked">Blocked</string>
+    <string name="no">No</string>
+    <string name="website_url">@www.website.com</string>
+    <string name="instagram_url">@Instagram</string>
+    <string name="twitter_url">@Twitter</string>
+    <string name="facebook_url">@Facebook</string>
+    <string name="linkedin_url">/In/Linkedin</string>
 </resources>

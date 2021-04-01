@@ -14,12 +14,16 @@
     <color name="colorOrange">#d1854d</color>
     <color name="colorDivider">#e5e5e5</color>
     <color name="bg_row_background">#fa315b</color>
+    <color name="bg_call_item">#F8F8F8</color>
+    <color name="text_color_call">#9BA9B6</color>
 
     <color name="pink_gradient">#A30D8A</color>
+    <color name="link">#AE0D8C</color>
     <color name="blue_gradient">#280D6C</color>
     <color name="purple_gradient">#540D77</color>
     <color name="sheet_textcolor">#D796CD</color>
     <color name="colorGrayHome">#637280</color>
+    <color name="red">#FF0000</color>
     <color name="navigationSelectedItem">#1DAEA9</color>
     <color name="white_tra_75">#BFffffff</color>
     <color name="yellow">#F8BD35</color>

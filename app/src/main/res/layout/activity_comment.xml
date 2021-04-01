@@ -28,21 +28,40 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    app:chipSpacing="8dp"
+                    android:background="@color/bg_call_item"
+                    app:selectionRequired="true"
+                    app:singleSelection="false" />
+
+                <com.rap.sheet.utilitys.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/comment"
+                    android:layout_marginLeft="16dp"
+                    android:textColor="@color/colorAccent"/>
+
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/My.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_12sdp"
-                    style="@style/My.TextInputLayout.FilledBox.Dense"
                     app:errorTextAppearance="@style/error_appearance"
                     app:hintAnimationEnabled="true"
+                    android:visibility="gone"
                     app:hintEnabled="true">
 
                     <com.rap.sheet.utilitys.CustomEditText
                         android:id="@+id/editTextComment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/comment"
                         android:backgroundTint="@color/colorWhite"
+                        android:hint="@string/comment"
                         android:importantForAutofill="noExcludeDescendants"
                         android:inputType="textMultiLine"
                         android:paddingBottom="@dimen/_18sdp"
@@ -85,13 +104,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_8sdp"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/cancel"
                         android:backgroundTint="@color/btnColorGray"
+                        android:gravity="center"
                         android:padding="@dimen/_10sdp"
+                        android:text="@string/cancel"
                         android:textAllCaps="false"
-                        app:cornerRadius="@dimen/_18sdp"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorAccent"
+                        app:cornerRadius="@dimen/_18sdp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonAdd"
@@ -101,12 +120,12 @@
                         android:layout_marginStart="@dimen/_8sdp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorAccent"
-                        android:padding="@dimen/_10sdp"
-                        android:textAllCaps="false"
-                        app:cornerRadius="@dimen/_18sdp"
                         android:gravity="center"
+                        android:padding="@dimen/_10sdp"
                         android:text="@string/Add"
-                        android:textColor="@color/colorWhite" />
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        app:cornerRadius="@dimen/_18sdp" />
 
 
                 </LinearLayout>
@@ -115,12 +134,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:background="@color/colorDivider" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewComment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"/>
 
 
             </LinearLayout>

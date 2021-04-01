@@ -10,26 +10,26 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.databinding.DataBindingUtil
 import com.rap.sheet.R
-import com.rap.sheet.databinding.ActivityHelpPrivacyBinding
 import com.rap.sheet.extenstion.beGone
 import com.rap.sheet.extenstion.beInVisible
 import com.rap.sheet.extenstion.beVisible
 import com.rap.sheet.extenstion.click
 import com.rap.sheet.view.common.BaseActivity
 import kotlinx.android.synthetic.main.activity_help_privacy.*
+import kotlinx.android.synthetic.main.progress_dialog_view.view.*
+import kotlinx.android.synthetic.main.top_view_layout.view.*
 
 class HelpPrivacyTermsActivity : BaseActivity() {
 
     private var title: String? = null
     private var url: String? = null
-    private lateinit var binding: ActivityHelpPrivacyBinding
+//    private lateinit var binding: ActivityHelpPrivacyBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_help_privacy);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_help_privacy)
+        setContentView(R.layout.activity_help_privacy)
         getIntentData()
         setUpToolBar()
         loadWebView()
@@ -45,18 +45,18 @@ class HelpPrivacyTermsActivity : BaseActivity() {
 
 
     private fun setUpToolBar() {
-        binding.toolbar.imgClose.click {
+        toolbar2.imgClose.click {
             onBackPressed()
         }
-        binding.toolbar.tvTitle.text = title
+        toolbar2.tvTitle.text = title
     }
 
     @SuppressLint("ClickableViewAccessibility", "SetJavaScriptEnabled")
     private fun loadWebView() {
         val webSettings: WebSettings = webViewHelp.settings
         webSettings.javaScriptEnabled = true
-        binding.webViewHelp.webViewClient = MyWebViewClient()
-        binding.webViewHelp.loadUrl(url.toString())
+        webViewHelp.webViewClient = MyWebViewClient()
+        webViewHelp.loadUrl(url.toString())
     }
 
     private fun proceedUrl(view: WebView, uri: Uri) {
@@ -79,14 +79,14 @@ class HelpPrivacyTermsActivity : BaseActivity() {
 
     inner class MyWebViewClient : WebViewClient() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-            binding.progress.linearLayoutProgressBar.beVisible()
-            binding.webViewHelp.beInVisible()
+            progress.linearLayoutProgressBar.beVisible()
+            webViewHelp.beInVisible()
             super.onPageStarted(view, url, favicon)
         }
 
         override fun onPageCommitVisible(view: WebView?, url: String?) {
-            binding.progress.linearLayoutProgressBar.beGone()
-            binding.webViewHelp.beVisible()
+            progress.linearLayoutProgressBar.beGone()
+            webViewHelp.beVisible()
             super.onPageCommitVisible(view, url)
         }
         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {

@@ -13,12 +13,10 @@ open class BaseActivity : AppCompatActivity() {
     val sharedPreferences: SharedPreferences by inject()
     private lateinit var progressDialog: Dialog
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         showProgressDialog()
     }
-
 
     fun showProgressDialog(): Dialog {
         progressDialog = Dialog(this)

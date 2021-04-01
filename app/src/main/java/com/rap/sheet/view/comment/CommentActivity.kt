@@ -1,50 +1,40 @@
 package com.rap.sheet.view.comment
 
-import android.content.DialogInterface
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import com.google.gson.Gson
-import com.rap.sheet.BuildConfig
 import com.rap.sheet.R
 import com.rap.sheet.adapter.ContactCommentAdapter
-import com.rap.sheet.application.BaseApplication
 import com.rap.sheet.extenstion.click
 import com.rap.sheet.extenstion.displayAlertDialog
 import com.rap.sheet.extenstion.makeSnackBar
 import com.rap.sheet.extenstion.userID
 import com.rap.sheet.model.ContactDetail.ContactDetailCommentModel
 import com.rap.sheet.model.SearchConatct.CommentRootModel
-import com.rap.sheet.retrofit.RestInterface
-import com.rap.sheet.retrofit.RetrofitClient
 import com.rap.sheet.utilitys.Constant
 import com.rap.sheet.utilitys.InternetConnection
 import com.rap.sheet.utilitys.Utility
 import com.rap.sheet.view.common.BaseActivity
 import com.rap.sheet.viewmodel.CommentViewModel
-import com.rap.sheet.viewmodel.SplashViewModel
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.toolbar.*
 import okhttp3.MediaType
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import org.json.JSONException
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.IOException
 import java.io.Serializable
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 class CommentActivity : BaseActivity() {
     private val mViewModel: CommentViewModel by viewModel()
     private var stringContactId: String? = null
-    private var restInterface: RestInterface? = null
     private var contactDetailCommentModelList: MutableList<ContactDetailCommentModel> = mutableListOf()
     private var contactDetailCommentModelListTemp: MutableList<ContactDetailCommentModel> = mutableListOf()
     private var contactCommentAdapter: ContactCommentAdapter? = null
@@ -53,7 +43,9 @@ class CommentActivity : BaseActivity() {
     private var commentID: String? = null
     private var message: String? = null
     private var showEdit: Boolean = false
-    val TAG = CommentActivity::class.java.simpleName
+    private var commentArrayList: MutableList<String> = mutableListOf()
+    private var commentSelectedArrayList: ArrayList<String> = ArrayList()
+    private var comment: String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +55,19 @@ class CommentActivity : BaseActivity() {
         initView()
         listenToViewModel()
         viewClickListener()
+        commentArrayList.add("Telemarketer")
+        commentArrayList.add("Robocaller")
+        commentArrayList.add("Fraud")
+        commentArrayList.add("Spoof")
+        commentArrayList.add("Spam")
+        commentArrayList.add("Survey")
+        commentArrayList.add("IRS")
+        commentArrayList.add("Debt Collector")
+        commentArrayList.add("Charity")
+        commentArrayList.add("Political")
+
+        setCategoryChips(commentArrayList)
+
     }
 
     private fun listenToViewModel() {
@@ -71,7 +76,7 @@ class CommentActivity : BaseActivity() {
 //            mViewModel.addComment(it.toString())
 //        })
 
-        mViewModel.addCommentSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.addCommentSuccessResponse.observe(this, {
             dismissProgressDialog()
             editTextComment!!.setText("")
             //   ratingBarComment.setRating(0);
@@ -87,19 +92,19 @@ class CommentActivity : BaseActivity() {
 //            onBackPressed()
         })
 
-        mViewModel.unAuthorizationException.observe(this, androidx.lifecycle.Observer {
+        mViewModel.unAuthorizationException.observe(this, {
             dismissProgressDialog()
         })
 
-        mViewModel.addCommentErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.addCommentErrorResponse.observe(this, {
             dismissProgressDialog()
         })
 
-        mViewModel.noInternetException.observe(this, androidx.lifecycle.Observer {
+        mViewModel.noInternetException.observe(this, {
             dismissProgressDialog()
         })
 
-        mViewModel.deleteCommentSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.deleteCommentSuccessResponse.observe(this, {
             dismissProgressDialog()
             contactDetailCommentModelList.removeAt(pos)
             contactCommentAdapter!!.notifyItemRemoved(pos)
@@ -108,11 +113,11 @@ class CommentActivity : BaseActivity() {
             }
         })
 
-        mViewModel.deleteCommentErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.deleteCommentErrorResponse.observe(this, {
             dismissProgressDialog()
         })
 
-        mViewModel.editCommentSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.editCommentSuccessResponse.observe(this, {
             dismissProgressDialog()
             contactCommentAdapter?.apply {
                 notifyDataSetChanged()
@@ -120,12 +125,12 @@ class CommentActivity : BaseActivity() {
             finish()
         })
 
-        mViewModel.editCommentErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.editCommentErrorResponse.observe(this, {
             dismissProgressDialog()
             finish()
         })
 
-        mViewModel.getCommentSuccessResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.getCommentSuccessResponse.observe(this, {
             dismissProgressDialog()
             try {
                 val result: String = it.string()
@@ -139,7 +144,7 @@ class CommentActivity : BaseActivity() {
             }
         })
 
-        mViewModel.getCommentErrorResponse.observe(this, androidx.lifecycle.Observer {
+        mViewModel.getCommentErrorResponse.observe(this, {
             dismissProgressDialog()
         })
 
@@ -152,8 +157,33 @@ class CommentActivity : BaseActivity() {
             commentID = this.getString("comment_id")
             isStatus = this.getBoolean("status", false)
             showEdit = this.getBoolean("showEdit", false)
-            Log.i(TAG, "getIntentData: " + message)
-            Log.i(TAG, "getIntentData: " + commentID)
+        }
+    }
+
+    @SuppressLint("InflateParams")
+    fun setCategoryChips(categorys: MutableList<String>) {
+        for (category in categorys) {
+            val mChip = this.layoutInflater.inflate(R.layout.item_chip_category, null, false) as Chip
+            mChip.text = category
+            mChip.setPadding(20, 5, 20, 5)
+            mChip.setOnCheckedChangeListener { _, b ->
+                var position = -1
+                if (b) {
+                    commentSelectedArrayList.add(category)
+                    comment = commentSelectedArrayList.toString().replace("[", "").replace("]", "") //remove brackets([) convert it to string
+
+                } else {
+                    for (i in commentSelectedArrayList.indices) {
+                        if (commentSelectedArrayList.get(i).contentEquals(category)) {
+                            position = i
+                        }
+                    }
+                    commentSelectedArrayList.removeAt(position)
+                    comment = commentSelectedArrayList.toString().replace("[", "").replace("]", "") //remove brackets([) convert it to string
+                }
+
+            }
+            chipGroupTag.addView(mChip)
         }
     }
 
@@ -168,17 +198,24 @@ class CommentActivity : BaseActivity() {
 
     private fun onCommentDeleteClick(position: Int) {
         pos = position
-        displayAlertDialog(title = resources.getString(R.string.delete), desc = resources.getString(R.string.delete_comment_msg), positiveText = resources.getString(R.string.yes), positiveClick = DialogInterface.OnClickListener { dialog, _ ->
-            dialog?.apply {
-                dismiss()
-                launchProgressDialog()
-                mViewModel.deleteComment(contactDetailCommentModelList[position].id.toString())
-            }
-        }, negativeText = resources.getString(R.string.cancel), negativeClick = DialogInterface.OnClickListener { dialog, which ->
-            dialog?.apply {
-                dismiss()
-            }
-        })
+        displayAlertDialog(
+                title = resources.getString(R.string.delete),
+                desc = resources.getString(R.string.delete_comment_msg),
+                positiveText = resources.getString(R.string.yes),
+                positiveClick = { dialog, _ ->
+                    dialog?.apply {
+                        dismiss()
+                        launchProgressDialog()
+                        mViewModel.deleteComment(contactDetailCommentModelList[position].id.toString())
+                    }
+                },
+                negativeText = this.resources.getString(R.string.cancel),
+                negativeClick = { dialog, _ ->
+                    dialog?.apply {
+                        dismiss()
+                    }
+                }
+        )
     }
 
     private fun setUpToolBar() {
@@ -200,7 +237,7 @@ class CommentActivity : BaseActivity() {
         }
 
         buttonAdd.click {
-            if (editTextComment!!.text.toString().trim { it <= ' ' }.isEmpty()) {
+            if (comment.trim { it <= ' ' }.isEmpty()) {
                 makeSnackBar(coordinatorLayoutRoot, resources.getString(R.string.comment_required))
             } else {
                 if (InternetConnection.checkConnection(this@CommentActivity)) {
@@ -219,17 +256,15 @@ class CommentActivity : BaseActivity() {
 
     private fun callEditAPI() {
         launchProgressDialog()
-        editTextComment.text.toString().let { commentID?.let { it1 -> mViewModel.editComment(it, it1, "0") } }
+        comment.let { commentID?.let { it1 -> mViewModel.editComment(it, it1, "0") } }
     }
 
     private fun callCommentAPI() {
         launchProgressDialog()
-        Log.i(TAG, "callCommentAPI: " + stringContactId.toString())
-        Log.i(TAG, "callCommentAPI: " + editTextComment.text.toString())
-        Log.i(TAG, "callCommentAPI: " + sharedPreferences.userID)
+
         val user_id: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), sharedPreferences.userID)
         val contact_id: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), stringContactId.toString())
-        val message: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), editTextComment.text.toString().trim { it <= ' ' })
+        val message: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), comment.trim { it <= ' ' })
         val rate: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), "0.0")
 //        mViewModel.makeJsonForAddNewComment(stringContactId.toString(), editTextComment.text.toString().trim { it <= ' ' }, sharedPreferences.userID.toInt())
         mViewModel.addComment(contact_id, message, rate, user_id)

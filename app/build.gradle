@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     signingConfigs {
@@ -112,12 +114,22 @@ dependencies {
     //noinspection LifecycleAnnotationProcessorWithJava8
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
 
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
 //  implementation 'com.anjlab.android.iab.v3:library:1.0.44'
 //    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     /* Glide Image Loader */
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    implementation 'com.mixpanel.android:mixpanel-android:5.8.0'
 
     //ads
     implementation 'com.google.android.gms:play-services-ads:19.6.0'

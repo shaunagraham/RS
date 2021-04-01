@@ -15,20 +15,17 @@ import okhttp3.ResponseBody
 
 class MyContactViewModel constructor(private val restInterface: RestInterface) : BaseViewModel() {
 
+    val myContactListSuccessResponse = MutableLiveData<ResponseBody>()
+    val myContactListErrorResponse = MutableLiveData<ResponseBody>()
+    val deleteContactSuccessResponse = MutableLiveData<ResponseBody>()
+    val deleteContactErrorResponse = MutableLiveData<ResponseBody>()
 
-    val myContactListSuccessResponse= MutableLiveData<ResponseBody>()
-    val myContactListErrorResponse= MutableLiveData<ResponseBody>()
-    val deleteContactSuccessResponse= MutableLiveData<ResponseBody>()
-    val deleteContactErrorResponse= MutableLiveData<ResponseBody>()
-
-
-
-    fun getContactList(id:String){
+    fun getContactList(id: String) {
         viewModelScope.launch(apiException() + Dispatchers.Main) {
             val response = restInterface.getAllMyContact(id)
 
             when (response.code()) {
-                SUCCESS_STATUS,SUCCESS_INSERTED -> {
+                SUCCESS_STATUS, SUCCESS_INSERTED -> {
                     myContactListSuccessResponse.postValue(response.body())
                 }
                 else -> {
@@ -39,12 +36,12 @@ class MyContactViewModel constructor(private val restInterface: RestInterface) :
         }
     }
 
-    fun deleteContact(contactId:String,userId:String){
+    fun deleteContact(contactId: String, userId: String) {
         viewModelScope.launch(apiException() + Dispatchers.Main) {
-            val response = restInterface.deleteMyContact(contactId,userId)
+            val response = restInterface.deleteMyContact(contactId, userId)
 
             when (response.code()) {
-                SUCCESS_STATUS,SUCCESS_INSERTED -> {
+                SUCCESS_STATUS, SUCCESS_INSERTED -> {
                     deleteContactSuccessResponse.postValue(response.body())
                 }
                 else -> {

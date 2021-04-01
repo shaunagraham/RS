@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/_8sdp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text=""
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/_17ssp"
@@ -66,50 +66,53 @@
         android:id="@+id/textViewContactEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginBottom="32dp"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/_12sdp"
-        android:layout_marginLeft="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/imageViewProfile"
-        app:layout_constraintTop_toBottomOf="@+id/textViewContactNumber"  />
+        app:layout_constraintTop_toBottomOf="@+id/textViewContactNumber" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toRightOf="@id/imageViewProfile"
-        app:layout_constraintTop_toBottomOf="@+id/textViewContactEmail">
-
-
-        <ImageView
-            android:id="@+id/floatingButtonCall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/_8sdp"
-            android:src="@drawable/ic_call" />
-
-        <ImageView
-            android:id="@+id/floatingButtonMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/_8sdp"
-            android:src="@drawable/ic_message" />
-
-        <ImageView
-            android:id="@+id/floatingButtonSave"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/_8sdp"
-            android:src="@drawable/ic_contact" />
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintLeft_toRightOf="@id/imageViewProfile"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textViewContactEmail">-->
 
 
-        <ImageView
-            android:id="@+id/floatingButtonShare"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/_8sdp"
-            android:src="@drawable/ic_share" />
+<!--        <ImageView-->
+<!--            android:id="@+id/floatingButtonCall"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="@dimen/_8sdp"-->
+<!--            android:src="@drawable/ic_call" />-->
 
-    </LinearLayout>
+<!--        <ImageView-->
+<!--            android:id="@+id/floatingButtonMessage"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="@dimen/_8sdp"-->
+<!--            android:src="@drawable/ic_message" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/floatingButtonSave"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="@dimen/_8sdp"-->
+<!--            android:src="@drawable/ic_contact" />-->
+
+
+<!--        <ImageView-->
+<!--            android:id="@+id/floatingButtonShare"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="@dimen/_8sdp"-->
+<!--            android:src="@drawable/ic_share" />-->
+
+<!--    </LinearLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

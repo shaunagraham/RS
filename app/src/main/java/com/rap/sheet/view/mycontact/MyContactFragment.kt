@@ -1,16 +1,13 @@
 package com.rap.sheet.view.mycontact
 
-import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.IntentFilter
 import android.graphics.Color
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -98,12 +95,12 @@ class MyContactFragment : BaseFragment(), OnNewContactListener {
                         object : UnderlayButtonClickListener {
                             override fun onClick(pos: Int) {
                                 requireActivity().displayAlertDialog(desc = resources.getString(R.string.delete_contact_msg), cancelable = false,
-                                        positiveText = resources.getString(R.string.yes), positiveClick = DialogInterface.OnClickListener { dialog, _ ->
+                                        positiveText = resources.getString(R.string.yes), positiveClick = { dialog, _ ->
                                     dialog?.apply {
                                         this.dismiss()
                                         callDeleteMyContact(pos)
                                     }
-                                }, negativeText = resources.getString(R.string.cancel), negativeClick = DialogInterface.OnClickListener { dialog, _ ->
+                                }, negativeText = resources.getString(R.string.cancel), negativeClick = { dialog, _ ->
                                     dialog?.apply {
                                         this.dismiss()
                                         myContactAdapter?.apply {
@@ -142,18 +139,33 @@ class MyContactFragment : BaseFragment(), OnNewContactListener {
     }
 
     private fun listenToViewModel() {
-        mViewModel.deleteContactSuccessResponse.observe(viewLifecycleOwner, Observer {
-            checkRecordExists().execute(position)
+        mViewModel.deleteContactSuccessResponse.observe(viewLifecycleOwner, {
+//            checkRecordExists().execute(position)
+
+            lifecycleScope.executeAsyncTask(onPreExecute = {
+            }, doInBackground = {
+                searchViewModel.isExistsData(contactModelList[position].id)
+            }, onPostExecute = {
+                if (it > 0) {
+                    searchViewModel.apply {
+                        deleteSingleRecord(contactModelList[position].id)
+                    }
+                }
+                contactModelList.removeAt(position)
+                myContactAdapter!!.notifyItemRemoved(position)
+                checkContactAvailableOrNot()
+                dismissProgressDialog()
+            })
         })
-        mViewModel.deleteContactErrorResponse.observe(viewLifecycleOwner, Observer {
+        mViewModel.deleteContactErrorResponse.observe(viewLifecycleOwner, {
             dismissProgressDialog()
         })
 
-        mViewModel.noInternetException.observe(viewLifecycleOwner, Observer {
+        mViewModel.noInternetException.observe(viewLifecycleOwner, {
 
         })
 
-        mViewModel.myContactListSuccessResponse.observe(viewLifecycleOwner, Observer {
+        mViewModel.myContactListSuccessResponse.observe(viewLifecycleOwner, {
             contactModelList.clear()
             val result: String = it.string()
             val myContactRootModel = Gson().fromJson(result, MyContactRootModel::class.java)
@@ -167,7 +179,7 @@ class MyContactFragment : BaseFragment(), OnNewContactListener {
 
             checkContactAvailableOrNot()
         })
-        mViewModel.myContactListErrorResponse.observe(viewLifecycleOwner, Observer {
+        mViewModel.myContactListErrorResponse.observe(viewLifecycleOwner, {
 
         })
     }
@@ -285,14 +297,16 @@ class MyContactFragment : BaseFragment(), OnNewContactListener {
         mViewModel.deleteContact(contactModelList[position].id.toString(), contactModelList[position].userId.toString())
     }
 
-//    private val myContactItemClickListener: RecyclerViewItemClickInterface = object : RecyclerViewItemClickInterface {
-//        public override fun onItemClick(pos: Int, view: View?) {
-//            position = pos
-//            val intentComment: Intent = Intent(mainActivity, CommentActivity::class.java)
-//            intentComment.putExtra("id", contactModelList!!.get(pos).getId())
-//            startActivity(intentComment)
-//        }
-//    }
+/*
+private val myContactItemClickListener: RecyclerViewItemClickInterface = object : RecyclerViewItemClickInterface {
+public override fun onItemClick(pos: Int, view: View?) {
+position = pos
+val intentComment: Intent = Intent(mainActivity, CommentActivity::class.java)
+intentComment.putExtra("id", contactModelList!!.get(pos).getId())
+startActivity(intentComment)
+}
+}
+*/
 
     override fun onNewContactReady(contact: String?) {
         try {
@@ -315,7 +329,7 @@ class MyContactFragment : BaseFragment(), OnNewContactListener {
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
+    /*@SuppressLint("StaticFieldLeak")
     inner class checkRecordExists : AsyncTask<Int?, Void?, Int>() {
 
         override fun onPostExecute(integer: Int) {
@@ -335,7 +349,7 @@ class MyContactFragment : BaseFragment(), OnNewContactListener {
             return searchViewModel.isExistsData(contactModelList[position].id)
         }
     }
-
+*/
 //    private val buttonAddContactClickListener: View.OnClickListener = object : View.OnClickListener {
 //        public override fun onClick(v: View) {
 //            Toast.makeText(mainActivity, "dfd", Toast.LENGTH_SHORT).show()
@@ -353,9 +367,9 @@ class MyContactFragment : BaseFragment(), OnNewContactListener {
     }
 
     companion object {
-        fun newInstance(): MyContactFragment {
+        /*fun newInstance(): MyContactFragment {
             return MyContactFragment()
-        }
+        }*/
     }
 
 }

@@ -1,5 +1,6 @@
 package com.rap.sheet.view.profile
 
+import android.R.string
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
@@ -8,7 +9,6 @@ import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.Observer
 import com.rap.sheet.BuildConfig
 import com.rap.sheet.R
 import com.rap.sheet.extenstion.beGone
@@ -112,41 +112,56 @@ class ProfileDetailActivity : BaseActivity() {
 
     private fun listenToViewModel() {
 
-        mViewViewModel.profileDetailSuccessResponse.observe(this, Observer {
+        mViewViewModel.profileDetailSuccessResponse.observe(this, {
             setUpProfileData(it.string())
         })
-        mViewViewModel.profileDetailErrorResponse.observe(this, Observer {
-            this.displayAlertDialog(desc = resources.getString(R.string.something_wrong), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    dialog?.apply {
-                        this.dismiss()
-                        finish()
-                    }
-                }
+        mViewViewModel.profileDetailErrorResponse.observe(this, {
+            this.displayAlertDialog(
+                    desc = resources.getString(R.string.something_wrong),
+                    cancelable = false,
+                    positiveText = resources.getString(string.ok),
+                    positiveClick = object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                            dialog?.apply {
+                                this.dismiss()
+                                finish()
+                            }
+                        }
 
-            })
+                    }
+            )
         })
-        mViewViewModel.noInternetException.observe(this, Observer {
+        mViewViewModel.noInternetException.observe(this, {
             if (InternetConnection.checkConnection(this)) {
-                this.displayAlertDialog(desc = resources.getString(R.string.something_wrong), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog?.apply {
-                            this.dismiss()
-                            finish()
-                        }
-                    }
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.something_wrong),
+                        cancelable = false,
+                        positiveText = resources.getString(string.ok),
+                        positiveClick = object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.apply {
+                                    this.dismiss()
+                                    finish()
+                                }
+                            }
 
-                })
+                        }
+                )
             } else {
-                this.displayAlertDialog(desc = resources.getString(R.string.no_internet_msg), cancelable = false, positiveText = resources.getString(android.R.string.ok), positiveClick = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog?.apply {
-                            this.dismiss()
-                            finish()
-                        }
-                    }
+                this.displayAlertDialog(
+                        desc = resources.getString(R.string.no_internet_msg),
+                        cancelable = false,
+                        positiveText = resources.getString(string.ok),
+                        positiveClick = object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog?.apply {
+                                    this.dismiss()
+                                    finish()
+                                }
+                            }
 
-                })
+                        }
+                )
             }
         })
 

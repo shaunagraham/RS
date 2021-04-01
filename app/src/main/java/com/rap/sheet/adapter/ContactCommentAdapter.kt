@@ -1,11 +1,9 @@
 package com.rap.sheet.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rap.sheet.application.BaseApplication
 import com.rap.sheet.model.ContactDetail.ContactDetailCommentModel
 import com.rap.sheet.R
 import com.rap.sheet.databinding.CommentRowViewBinding

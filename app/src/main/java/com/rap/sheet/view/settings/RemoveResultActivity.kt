@@ -1,27 +1,26 @@
 package com.rap.sheet.view.settings
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.rap.sheet.R
-import com.rap.sheet.databinding.ActivityRemoveresultBinding
+import kotlinx.android.synthetic.main.activity_removeresult.*
+import kotlinx.android.synthetic.main.top_view_layout.view.*
 
 class RemoveResultActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityRemoveresultBinding
+    //    private lateinit var binding: ActivityRemoveresultBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_removeresult)
+        setContentView(R.layout.activity_removeresult)
         setView()
     }
 
     private fun setView() {
         setUpToolBar()
-        binding.buttonCancel.setOnClickListener { onBackPressed() }
+        buttonCancel.setOnClickListener { onBackPressed() }
     }
 
     private fun setUpToolBar() {
-        binding.toolbar.imgClose.setOnClickListener { onBackPressed() }
-        binding.toolbar.tvTitle.text = resources.getString(R.string.remove_result)
+        toolbar4.imgClose.setOnClickListener { onBackPressed() }
+        toolbar4.tvTitle.text = resources.getString(R.string.remove_result)
     }
 }

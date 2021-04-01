@@ -24,16 +24,16 @@
                 android:id="@+id/linearLayoutSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:background="@drawable/home_searchbar"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/_26sdp"
                     android:layout_height="@dimen/_26sdp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_20sdp"
-                   android:src="@drawable/ic_header_logo" />
+                    android:src="@drawable/ic_header_logo" />
 
                 <com.rap.sheet.utilitys.CustomEditText
                     android:id="@+id/editTextSearch"
@@ -59,7 +59,6 @@
             </LinearLayout>
 
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -76,10 +75,10 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewContact"
-                    android:paddingTop="@dimen/_16sdp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:overScrollMode="never" />
+                    android:overScrollMode="never"
+                    android:paddingTop="@dimen/_16sdp" />
 
                 <LinearLayout
                     android:id="@+id/linearLayoutAddNewContact"
@@ -115,13 +114,18 @@
                         android:textAllCaps="false"
                         android:textColor="@color/colorWhite"
                         app:cornerRadius="@dimen/_18sdp"
-                        app:icon="@drawable/ic_person_add"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent" />
+                        app:icon="@drawable/ic_person_add" />
+
+
+                    <ImageView
+                        android:id="@+id/imageViewRefresh"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/refresh" />
+
 
                 </LinearLayout>
-
 
                 <include layout="@layout/no_message_view" />
 

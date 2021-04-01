@@ -21,6 +21,11 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.rap.sheet.R
+import com.rap.sheet.application.BaseApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 fun View.beGone() {
     if (this.visibility != View.GONE) {
@@ -123,6 +128,12 @@ fun Context.makeSnackBar(
 
 }
 
+fun logEvent(key: String?, value: String?, keyEvent: String?) {
+    val bundle = Bundle()
+    bundle.putString(key, value)
+    BaseApplication.baseAppClass.mFirebaseAnalytics?.logEvent(keyEvent!!, bundle)
+}
+
 
 // Font
 fun Context.regularFont(): Typeface {
@@ -221,6 +232,18 @@ inline fun <reified T : Activity> Activity.startActivityFromActivityWithBundleCo
 fun Context.hideKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun <R> CoroutineScope.executeAsyncTask(
+        onPreExecute: () -> Unit,
+        doInBackground: () -> R,
+        onPostExecute: (R) -> Unit
+) = launch {
+    onPreExecute() // runs in Main Thread
+    val result = withContext(Dispatchers.IO) {
+        doInBackground() // runs in background thread without blocking the Main Thread
+    }
+    onPostExecute(result) // runs in Main Thread
 }
 
 fun Activity.hideKeyboard() {

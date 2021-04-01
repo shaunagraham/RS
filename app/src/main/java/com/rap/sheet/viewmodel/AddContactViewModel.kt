@@ -18,22 +18,19 @@ import okhttp3.ResponseBody
 
 class AddContactViewModel constructor(private val restInterface: RestInterface) : BaseViewModel() {
 
+    val addContactSuccessResponse = MutableLiveData<ResponseBody>()
+    val addContactErrorResponse = MutableLiveData<ResponseBody>()
 
-    val addContactSuccessResponse= MutableLiveData<ResponseBody>()
-    val addContactErrorResponse= MutableLiveData<ResponseBody>()
-
-
-    fun addNewContact(number: RequestBody, firstName:RequestBody, lastName:RequestBody, email:RequestBody, weblink:RequestBody, insta:RequestBody, facebook:RequestBody, linked:RequestBody, userId:RequestBody, media: MultipartBody.Part){
+    fun addNewContact(number: RequestBody, firstName: RequestBody, lastName: RequestBody, email: RequestBody, weblink: RequestBody, insta: RequestBody, facebook: RequestBody, linked: RequestBody, userId: RequestBody, media: MultipartBody.Part) {
         viewModelScope.launch(apiException() + Dispatchers.Main) {
-            val response =  if(media!=null){
-                restInterface.addNewContact(number,firstName,lastName,email,weblink,insta,facebook,linked,userId,media)
-            }else{
-                restInterface.addNewContactWithoutImage(number,firstName,lastName,email,weblink,insta,facebook,linked,userId)
+            val response = if (media != null) {
+                restInterface.addNewContact(number, firstName, lastName, email, weblink, insta, facebook, linked, userId, media)
+            } else {
+                restInterface.addNewContactWithoutImage(number, firstName, lastName, email, weblink, insta, facebook, linked, userId)
             }
 
-
             when (response.code()) {
-                SUCCESS_STATUS,SUCCESS_INSERTED -> {
+                SUCCESS_STATUS, SUCCESS_INSERTED -> {
                     addContactSuccessResponse.postValue(response.body())
                 }
                 else -> {
@@ -44,12 +41,7 @@ class AddContactViewModel constructor(private val restInterface: RestInterface) 
         }
     }
 
-
     fun onDetach() {
         viewModelScope.cancel()
     }
-
-
-
-
 }

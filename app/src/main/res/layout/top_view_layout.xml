@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/linearLayoutTitle"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/gradient_bg_drawable"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/_12sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingLeft="@dimen/_12sdp">
 
         <com.rap.sheet.utilitys.CustomTextViewMedium
             android:id="@+id/tvTitle"
@@ -21,7 +17,7 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_18ssp"
+            android:textSize="@dimen/_15ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -32,10 +28,10 @@
             android:layout_width="@dimen/_32sdp"
             android:layout_height="@dimen/_32sdp"
             android:src="@drawable/ic_left_back"
-            android:tint="@color/colorWhite"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorWhite" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,7 +1,5 @@
 package com.rap.sheet.view.settings
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -10,47 +8,49 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import androidx.databinding.DataBindingUtil
 import com.android.billingclient.api.*
 import com.rap.sheet.R
 import com.rap.sheet.application.BaseApplication
-
-import com.rap.sheet.databinding.FragmentSettingsBinding
 import com.rap.sheet.extenstion.beGone
 import com.rap.sheet.extenstion.click
 import com.rap.sheet.extenstion.startActivityFromFragment
+import com.rap.sheet.view.black_list.BlackListActivity
 import com.rap.sheet.view.common.BaseFragment
 import com.rap.sheet.view.feedback.FeedbackActivity
 import com.rap.sheet.view.profile.ProfileActivity
+import kotlinx.android.synthetic.main.fragment_settings.*
 
 /**
  * Created by mvayak on 02-08-2018.
  */
 
-class SettingsFragment : BaseFragment(){
-    private var billingClient: BillingClient?=null
-    private lateinit var binding: FragmentSettingsBinding
-    private val TAG = SettingsFragment::class.java.simpleName
+class SettingsFragment : BaseFragment() {
+    private var billingClient: BillingClient? = null
+//    private lateinit var binding: FragmentSettingsBinding
 
     private var isSubscribe = false
-//    val skuList: MutableList<String> = ArrayList()
-    private var skuDetail:SkuDetails?=null
+
+    //    val skuList: MutableList<String> = ArrayList()
+    private var skuDetail: SkuDetails? = null
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setView()
-        return binding.root
     }
 
     private fun setView() {
 //        skuList.add(BuildConfig.PRODUCT_ID)
-  //      Log.i(TAG, "setView: " + skuList.size)
+        //      Log.i(TAG, "setView: " + skuList.size)
         setUpBillingClient()
 
-        binding.lvProfile.click {
+        lvProfile.click {
             startActivityFromFragment<ProfileActivity>()
         }
-        binding.lvRateApp.click {
+        lvRateApp.click {
             try {
                 val rateIntent = rateIntentForUrl("market://details")
                 startActivity(rateIntent)
@@ -59,25 +59,29 @@ class SettingsFragment : BaseFragment(){
                 startActivity(rateIntent)
             }
         }
-        binding.lvShareApp.click {
+        lvShareApp.click {
             shareApp()
         }
-        binding.lvFeedback.click {
+        lvFeedback.click {
             startActivityFromFragment<FeedbackActivity>()
         }
-        binding.lvHelp.click {
+        lvBlockedCall.click {
+            startActivityFromFragment<BlackListActivity>()
+
+        }
+        lvHelp.click {
             redirectToTerms(resources.getString(R.string.drawer_help), "http://www.rapsheetapp.com/faq?device=mobile")
         }
-        binding.lvRemoveResult.click {
+        lvRemoveResult.click {
             startActivityFromFragment<RemoveResultActivity>()
         }
-        binding.lvPrivacyPolicy.click {
+        lvPrivacyPolicy.click {
             redirectToTerms(resources.getString(R.string.drawer_privacy), "http://www.rapsheetapp.com/privacy-policy?device=mobile")
         }
-        binding.lvTerms.click {
+        lvTerms.click {
             redirectToTerms(resources.getString(R.string.drawer_terms), "http://www.rapsheetapp.com/terms-of-use?device=mobile")
         }
-        binding.lvRemoveAds.click {
+        lvRemoveAds.click {
             isSubscribe = true
 
             skuDetail?.let {
@@ -88,8 +92,8 @@ class SettingsFragment : BaseFragment(){
             }
         }
 
-        if(  BaseApplication.adsRemovePref?.isAdsRemove!!){
-            binding.lvRemoveAds.beGone()
+        if (BaseApplication.adsRemovePref?.isAdsRemove!!) {
+            lvRemoveAds.beGone()
         }
 
 
@@ -155,7 +159,7 @@ class SettingsFragment : BaseFragment(){
 //                if (skuDetailsList != null) {
 //                    for (skuDetails in skuDetailsList) {
 //                        if (skuDetails.sku == "test_product_one")
-//                        binding.lvDisclaimer.click {
+//                        lvDisclaimer.click {
 //                            val billingFlowParams = BillingFlowParams
 //                                    .newBuilder()
 //                                    .setSkuDetails(skuDetails)
@@ -204,7 +208,7 @@ class SettingsFragment : BaseFragment(){
 //    private fun initBillingManager() {
 //        mBillingManager = BillingUtil(context as Activity?, object : BillingUpdatesListener {
 //            override fun onBillingClientSetupFinished() {
-////                binding.buttonContinue.setEnabled(true)
+////                buttonContinue.setEnabled(true)
 //
 //                if (mBillingManager != null
 //                        && mBillingManager!!.billingClientResponseCode
@@ -255,36 +259,35 @@ class SettingsFragment : BaseFragment(){
 //        })
 //    }
 
-    fun showCustomDialog(isSucess: Boolean) {
-        isSubscribe = false
-//        val deleteDialogView: View = LayoutInflater.from(this).inflate(R.layout.custom_dialog_layout, null)
-//        val deleteDialog: AlertDialog = Builder(this, R.style.CustomDialog).create()
-//        deleteDialog.setView(deleteDialogView)
-//        val textViewTitte = deleteDialogView.findViewById<TextView>(R.id.tvTitle)
-//        val textViewMessage = deleteDialogView.findViewById<TextView>(R.id.tvMessage)
-        if (isSucess) {
-
-            Log.i(TAG, "showCustomDialog: " + "success")
-//            textViewTitte.text = resources.getString(R.string.success)
-//            textViewMessage.text = resources.getString(R.string.premium_success)
-        } else {
-
-            Log.i(TAG, "showCustomDialog: " + "something want to wrong")
-
-//            textViewTitte.text = resources.getString(R.string.oops)
-//            textViewMessage.text = resources.getString(R.string.something_went_wrong)
-        }
-//        val buttonOk: MaterialButton = deleteDialogView.findViewById(R.id.buttonYes)
-//        buttonOk.text = "Ok"
-//        buttonOk.setOnClickListener { v: View? ->
-//            deleteDialog.dismiss()
-//            onBackPressed()
+//    fun showCustomDialog(isSucess: Boolean) {
+//        isSubscribe = false
+////        val deleteDialogView: View = LayoutInflater.from(this).inflate(R.layout.custom_dialog_layout, null)
+////        val deleteDialog: AlertDialog = Builder(this, R.style.CustomDialog).create()
+////        deleteDialog.setView(deleteDialogView)
+////        val textViewTitte = deleteDialogView.findViewById<TextView>(R.id.tvTitle)
+////        val textViewMessage = deleteDialogView.findViewById<TextView>(R.id.tvMessage)
+//        if (isSucess) {
+//
+//            Log.i(TAG, "showCustomDialog: " + "success")
+////            textViewTitte.text = resources.getString(R.string.success)
+////            textViewMessage.text = resources.getString(R.string.premium_success)
+//        } else {
+//
+//            Log.i(TAG, "showCustomDialog: " + "something want to wrong")
+//
+////            textViewTitte.text = resources.getString(R.string.oops)
+////            textViewMessage.text = resources.getString(R.string.something_went_wrong)
 //        }
-//        deleteDialogView.findViewById<View>(R.id.buttonNo).visibility = View.GONE
-//        deleteDialog.show()
-    }
-
-
+////        val buttonOk: MaterialButton = deleteDialogView.findViewById(R.id.buttonYes)
+////        buttonOk.text = "Ok"
+////        buttonOk.setOnClickListener { v: View? ->
+////            deleteDialog.dismiss()
+////            onBackPressed()
+////        }
+////        deleteDialogView.findViewById<View>(R.id.buttonNo).visibility = View.GONE
+////        deleteDialog.show()
+//    }
+//
 
     private fun setUpBillingClient() {
         billingClient = BillingClient.newBuilder(requireContext())
@@ -294,7 +297,7 @@ class SettingsFragment : BaseFragment(){
         startConnection()
     }
 
-    private val purchaseUpdateListener =  PurchasesUpdatedListener { billingResult, purchases ->
+    private val purchaseUpdateListener = PurchasesUpdatedListener { billingResult, purchases ->
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
             for (purchase in purchases) {
                 handleNonConcumablePurchase(purchase)
@@ -305,13 +308,13 @@ class SettingsFragment : BaseFragment(){
             // Handle an error caused by a user cancelling the purchase flow.
         } else {
             BaseApplication.adsRemovePref?.setRemoveAdsData(false)
-            Log.d("TAG_INAPP", "Other Error "+billingResult.responseCode+" / "+billingResult.debugMessage)
+            Log.d("TAG_INAPP", "Other Error " + billingResult.responseCode + " / " + billingResult.debugMessage)
             // Handle any other error codes.
         }
     }
 
     private fun handleNonConcumablePurchase(purchase: Purchase) {
-        Log.v("TAG_INAPP","handlePurchase : $purchase")
+        Log.v("TAG_INAPP", "handlePurchase : $purchase")
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged) {
                 val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
@@ -320,14 +323,14 @@ class SettingsFragment : BaseFragment(){
                     val billingResponseCode = billingResult.responseCode
                     val billingDebugMessage = billingResult.debugMessage
                     BaseApplication.adsRemovePref?.setRemoveAdsData(true)
-                    binding.lvRemoveAds.beGone()
-                    Log.v("TAG_INAPP","response code: $billingResponseCode")
-                    Log.v("TAG_INAPP","debugMessage : $billingDebugMessage")
+                    lvRemoveAds.beGone()
+                    Log.v("TAG_INAPP", "response code: $billingResponseCode")
+                    Log.v("TAG_INAPP", "debugMessage : $billingDebugMessage")
 
                 }
-            }else{
+            } else {
                 BaseApplication.adsRemovePref?.setRemoveAdsData(false)
-                Log.v("TAG_INAPP","Error Avi")
+                Log.v("TAG_INAPP", "Error Avi")
             }
         }
     }
@@ -335,29 +338,30 @@ class SettingsFragment : BaseFragment(){
     private fun startConnection() {
         billingClient?.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
-                if (billingResult.responseCode ==  BillingClient.BillingResponseCode.OK) {
-                    Log.v("TAG_INAPP","Setup Billing Done")
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    Log.v("TAG_INAPP", "Setup Billing Done")
                     // The BillingClient is ready. You can query purchases here.
                     val pr = billingClient!!.queryPurchases(BillingClient.SkuType.INAPP)
                     val pList = pr.purchasesList
-                    if(!pList.isNullOrEmpty()) {
+                    if (!pList.isNullOrEmpty()) {
                         for (iitem in pList) {
                             val consumeParams = ConsumeParams.newBuilder()
                                     .setPurchaseToken(iitem.purchaseToken)
                                     .build()
-                            billingClient!!.consumeAsync(consumeParams) { _: BillingResult, s: String ->
+                            billingClient!!.consumeAsync(consumeParams) { _: BillingResult, _: String ->
                                 BaseApplication.adsRemovePref?.setRemoveAdsData(true)
                             }
                         }
-                    }else{
+                    } else {
                         BaseApplication.adsRemovePref?.setRemoveAdsData(false)
                     }
                     queryAvaliableProducts()
                 }
             }
+
             override fun onBillingServiceDisconnected() {
 
-                Log.v("TAG_INAPP","Billing client Disconnected")
+                Log.v("TAG_INAPP", "Billing client Disconnected")
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
             }
@@ -374,7 +378,7 @@ class SettingsFragment : BaseFragment(){
             // Process the result.
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && !skuDetailsList.isNullOrEmpty()) {
                 for (skuDetails in skuDetailsList) {
-                    skuDetail=skuDetails
+                    skuDetail = skuDetails
                 }
             }
         }

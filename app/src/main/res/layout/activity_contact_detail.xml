@@ -8,6 +8,7 @@
     tools:context=".view.contact_detail.ContactDetailActivity">
 
     <include
+        android:id="@+id/toolbar"
         layout="@layout/toolbar_new" />
 
     <FrameLayout
@@ -33,35 +34,35 @@
                 android:layout_height="match_parent"
                 android:visibility="visible">
 
-<!--                <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--                    android:id="@+id/imageViewProfile"-->
-<!--                    android:layout_width="80dp"-->
-<!--                    android:layout_height="80dp"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    android:visibility="visible"-->
-<!--                    app:civ_border="true"-->
-<!--                    app:civ_border_color="@color/colorAccent"-->
-<!--                    app:civ_border_width="1dp"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+                <!--                <com.mikhaellopez.circularimageview.CircularImageView-->
+                <!--                    android:id="@+id/imageViewProfile"-->
+                <!--                    android:layout_width="80dp"-->
+                <!--                    android:layout_height="80dp"-->
+                <!--                    android:layout_gravity="center_horizontal"-->
+                <!--                    android:layout_marginStart="8dp"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    android:visibility="visible"-->
+                <!--                    app:civ_border="true"-->
+                <!--                    app:civ_border_color="@color/colorAccent"-->
+                <!--                    app:civ_border_width="1dp"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
 
-<!--                <com.rap.sheet.utilitys.CustomTextViewRegular-->
-<!--                    android:id="@+id/textViewContactName"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_centerHorizontal="true"-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:textColor="@color/colorBlack"-->
-<!--                    android:textSize="@dimen/_18sdp"-->
-<!--                    app:layout_constraintEnd_toStartOf="@+id/floatingButtonComment"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/imageViewProfile"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    tools:targetApi="jelly_bean" />-->
+                <!--                <com.rap.sheet.utilitys.CustomTextViewRegular-->
+                <!--                    android:id="@+id/textViewContactName"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_centerHorizontal="true"-->
+                <!--                    android:layout_marginStart="16dp"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    android:layout_marginEnd="8dp"-->
+                <!--                    android:textColor="@color/colorBlack"-->
+                <!--                    android:textSize="@dimen/_18sdp"-->
+                <!--                    app:layout_constraintEnd_toStartOf="@+id/floatingButtonComment"-->
+                <!--                    app:layout_constraintStart_toEndOf="@+id/imageViewProfile"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent"-->
+                <!--                    tools:targetApi="jelly_bean" />-->
 
                 <!--                <ImageView-->
                 <!--                    android:id="@+id/imageViewMoreInfo"-->
@@ -77,32 +78,32 @@
                 <!--                    android:src="@drawable/ic_info"-->
                 <!--                    android:visibility="gone" />-->
 
-<!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                    android:id="@+id/floatingButtonComment"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_below="@+id/textViewContactNumber"-->
-<!--                    android:layout_centerHorizontal="true"-->
-<!--                    android:layout_margin="@dimen/_8sdp"-->
-<!--                    android:layout_marginTop="16dp"-->
-<!--                    android:src="@drawable/ic_feedback"-->
-<!--                    android:visibility="gone"-->
-<!--                    app:fabSize="normal"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+                <!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                <!--                    android:id="@+id/floatingButtonComment"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_below="@+id/textViewContactNumber"-->
+                <!--                    android:layout_centerHorizontal="true"-->
+                <!--                    android:layout_margin="@dimen/_8sdp"-->
+                <!--                    android:layout_marginTop="16dp"-->
+                <!--                    android:src="@drawable/ic_feedback"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    app:fabSize="normal"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
 
-<!--                <com.rap.sheet.utilitys.CustomTextViewRegular-->
-<!--                    android:id="@+id/textViewContactNumber"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_below="@+id/textViewContactName"-->
-<!--                    android:textColor="@color/colorBlackLight"-->
-<!--                    android:textSize="@dimen/_16sdp"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/textViewContactName"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/textViewContactName"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/textViewContactName"-->
-<!--                    tools:targetApi="jelly_bean" />-->
+                <!--                <com.rap.sheet.utilitys.CustomTextViewRegular-->
+                <!--                    android:id="@+id/textViewContactNumber"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_below="@+id/textViewContactName"-->
+                <!--                    android:textColor="@color/colorBlackLight"-->
+                <!--                    android:textSize="@dimen/_16sdp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="@+id/textViewContactName"-->
+                <!--                    app:layout_constraintStart_toStartOf="@+id/textViewContactName"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/textViewContactName"-->
+                <!--                    tools:targetApi="jelly_bean" />-->
 
                 <!--                <TextView-->
                 <!--                    android:id="@+id/textViewContactExtraInfo"-->
@@ -117,24 +118,152 @@
                 <!--                    android:textSize="@dimen/_12sdp"-->
                 <!--                    tools:targetApi="jelly_bean" />-->
 
-<!--                <com.rap.sheet.utilitys.CustomTextViewLight-->
-<!--                    android:id="@+id/textViewContactEmail"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColor="@color/colorBlackLight"-->
-<!--                    android:textSize="@dimen/_12sdp"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/textViewContactNumber"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/textViewContactNumber"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/textViewContactNumber"-->
-<!--                    tools:targetApi="jelly_bean" />-->
+                <!--                <com.rap.sheet.utilitys.CustomTextViewLight-->
+                <!--                    android:id="@+id/textViewContactEmail"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:textColor="@color/colorBlackLight"-->
+                <!--                    android:textSize="@dimen/_12sdp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="@+id/textViewContactNumber"-->
+                <!--                    app:layout_constraintStart_toStartOf="@+id/textViewContactNumber"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/textViewContactNumber"-->
+                <!--                    tools:targetApi="jelly_bean" />-->
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardViewContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="16dp"
+                    app:cardBackgroundColor="@color/colorWhite"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
+
+                        <ImageView
+                            android:id="@+id/imageViewCall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/ic_call_new"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewChat"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.rap.sheet.utilitys.CustomTextViewMedium
+                            android:id="@+id/textViewReport"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/background_call"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="12dp"
+                            android:paddingRight="25dp"
+                            android:paddingBottom="12dp"
+                            android:text="@string/report"
+                            android:textColor="@color/text_color_call"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/textViewUpdate"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageViewCall" />
+
+                        <com.rap.sheet.utilitys.CustomTextViewMedium
+                            android:id="@+id/textViewUpdate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:background="@drawable/background_call"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="12dp"
+                            android:paddingRight="25dp"
+                            android:paddingBottom="12dp"
+                            android:text="@string/update"
+                            android:textColor="@color/text_color_call"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewReport"
+                            app:layout_constraintEnd_toStartOf="@+id/textViewBlocked"
+                            app:layout_constraintStart_toEndOf="@+id/textViewReport" />
+
+                        <com.rap.sheet.utilitys.CustomTextViewMedium
+                            android:id="@id/textViewBlocked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/background_call"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="12dp"
+                            android:paddingRight="25dp"
+                            android:paddingBottom="12dp"
+                            android:text="@string/blocked"
+                            android:textColor="@color/text_color_call"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewUpdate"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@+id/textViewUpdate" />
+
+                        <ImageView
+                            android:id="@+id/imageViewChat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:src="@drawable/ic_chat"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewCall"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewUser"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewCall"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewCall"
+                            app:layout_constraintVertical_bias="0.0" />
+
+                        <ImageView
+                            android:id="@+id/imageViewUser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:src="@drawable/ic_user"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewChat"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewShare"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewChat"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewChat"
+                            app:layout_constraintVertical_bias="0.0" />
+
+                        <ImageView
+                            android:id="@+id/imageViewShare"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/ic_share_via"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewUser"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewUser"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewUser" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:orientation="horizontal"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewContactEmail">
@@ -174,59 +303,69 @@
 
                 </LinearLayout>
 
-<!--                <View-->
-<!--                    android:id="@+id/viewDivider"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="1dp"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    android:background="@color/colorDivider"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
+
+                <!--                <View-->
+                <!--                    android:id="@+id/viewDivider"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="1dp"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    android:background="@color/colorDivider"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/relativeLayoutComment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewContact">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewComment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:overScrollMode="never"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
                         android:paddingBottom="@dimen/_65sdp"
-                        android:scrollbars="none" />
+                        android:scrollbars="none"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.rap.sheet.utilitys.CustomTextViewBold
+                    <com.rap.sheet.utilitys.CustomTextViewRegular
                         android:id="@+id/textViewMessage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/fabAddNewComment"
-                        android:gravity="center"
-                        app:layout_constraintBottom_toTopOf="@+id/fabAddNewComment"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_12ssp"
-                        android:text=""
                         android:layout_marginBottom="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/colorGrayHome"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toTopOf="@+id/fabAddNewComment"
                         tools:targetApi="jelly_bean" />
 
                     <ImageView
                         android:id="@+id/fabAddNewComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/_25sdp"
                         android:src="@drawable/ic_plus"
                         android:visibility="visible"
-                        android:layout_marginBottom="@dimen/_25sdp"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
 
-                    <include layout="@layout/progress_dialog_view" />
+                    <include
+                        layout="@layout/progress_dialog_view"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -243,66 +382,66 @@
                 <!--app:fabSize="normal" />-->
 
 
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/linearLayoutOtherOption"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentBottom="true"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:visibility="gone"-->
-<!--                    android:weightSum="4"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent">-->
+                <!--                <LinearLayout-->
+                <!--                    android:id="@+id/linearLayoutOtherOption"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_alignParentBottom="true"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:orientation="horizontal"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    android:weightSum="4"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent">-->
 
-<!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                        android:id="@+id/floatingButtonCall"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/_6sdp"-->
-<!--                        android:layout_marginRight="@dimen/_16sdp"-->
-<!--                        android:layout_marginBottom="@dimen/_8sdp"-->
-<!--                        android:src="@drawable/ic_phone"-->
-<!--                        android:tint="@android:color/white"-->
-<!--                        app:fabSize="normal" />-->
+                <!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                <!--                        android:id="@+id/floatingButtonCall"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginTop="@dimen/_6sdp"-->
+                <!--                        android:layout_marginRight="@dimen/_16sdp"-->
+                <!--                        android:layout_marginBottom="@dimen/_8sdp"-->
+                <!--                        android:src="@drawable/ic_phone"-->
+                <!--                        android:tint="@android:color/white"-->
+                <!--                        app:fabSize="normal" />-->
 
-<!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                        android:id="@+id/floatingButtonMessage"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/_6sdp"-->
-<!--                        android:layout_marginRight="@dimen/_16sdp"-->
-<!--                        android:layout_marginBottom="@dimen/_8sdp"-->
-<!--                        android:src="@drawable/ic_feedback"-->
-<!--                        android:tint="@android:color/white"-->
-<!--                        app:fabSize="normal" />-->
-
-
-<!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                        android:id="@+id/floatingButtonSave"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/_6sdp"-->
-<!--                        android:layout_marginRight="@dimen/_16sdp"-->
-<!--                        android:layout_marginBottom="@dimen/_8sdp"-->
-<!--                        android:src="@drawable/ic_save"-->
-<!--                        android:tint="@android:color/white"-->
-<!--                        app:fabSize="normal" />-->
+                <!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                <!--                        android:id="@+id/floatingButtonMessage"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginTop="@dimen/_6sdp"-->
+                <!--                        android:layout_marginRight="@dimen/_16sdp"-->
+                <!--                        android:layout_marginBottom="@dimen/_8sdp"-->
+                <!--                        android:src="@drawable/ic_feedback"-->
+                <!--                        android:tint="@android:color/white"-->
+                <!--                        app:fabSize="normal" />-->
 
 
-<!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                        android:id="@+id/floatingButtonShare"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/_6sdp"-->
-<!--                        android:layout_marginBottom="@dimen/_8sdp"-->
-<!--                        android:src="@drawable/ic_share"-->
-<!--                        android:tint="@android:color/white"-->
-<!--                        app:fabSize="normal"-->
-<!--                        tools:ignore="RelativeOverlap" />-->
+                <!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                <!--                        android:id="@+id/floatingButtonSave"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginTop="@dimen/_6sdp"-->
+                <!--                        android:layout_marginRight="@dimen/_16sdp"-->
+                <!--                        android:layout_marginBottom="@dimen/_8sdp"-->
+                <!--                        android:src="@drawable/ic_save"-->
+                <!--                        android:tint="@android:color/white"-->
+                <!--                        app:fabSize="normal" />-->
 
-<!--                </LinearLayout>-->
+
+                <!--                    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                <!--                        android:id="@+id/floatingButtonShare"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginTop="@dimen/_6sdp"-->
+                <!--                        android:layout_marginBottom="@dimen/_8sdp"-->
+                <!--                        android:src="@drawable/ic_share"-->
+                <!--                        android:tint="@android:color/white"-->
+                <!--                        app:fabSize="normal"-->
+                <!--                        tools:ignore="RelativeOverlap" />-->
+
+                <!--                </LinearLayout>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

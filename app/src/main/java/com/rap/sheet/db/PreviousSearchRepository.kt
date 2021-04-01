@@ -6,7 +6,6 @@ import com.rap.sheet.model.SearchConatct.SearchContactDataModel
 
 class PreviousSearchRepository(private val previousSearchDao: PreviousSearchDao) {
 
-
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
     var allSearchResult: LiveData<MutableList<SearchContactDataModel>>? = null

@@ -8,4 +8,5 @@ object Constant {
     var SEARCH_RESULT: Int = 902
     val NEW_CONTACTS: String = "rap-sheet-contact-event"
     val REFRESH_CONTACTS: String = "rap-sheet-refresh-contact-event"
+    var MIXPANEL_API_TOKEN = "45b9c7613d1e2cd6255b06e2cf061a00"
 }

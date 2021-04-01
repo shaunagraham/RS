@@ -86,19 +86,31 @@ interface RestInterface {
     @Multipart
     @POST("user/update")
     suspend fun updateProfile(@Part("uuid") uuid: RequestBody,
-                             @Part("first_name") message: RequestBody,
-                             @Part("last_name") first_name: RequestBody,
-                             @Part("email") last_name: RequestBody,
-                             @Part("phone") email: RequestBody,
-                             @Part image: MultipartBody.Part): Response<ResponseBody>
-
-    @Multipart
-    @POST("user/update")
-    suspend fun updateProfileWithOutImage(@Part("uuid") uuid: RequestBody,
                               @Part("first_name") message: RequestBody,
                               @Part("last_name") first_name: RequestBody,
                               @Part("email") last_name: RequestBody,
-                              @Part("phone") email: RequestBody): Response<ResponseBody>
+                              @Part("phone") email: RequestBody,
+                              @Part("weblink") weblink: RequestBody,
+                              @Part("instagram") instagram: RequestBody,
+                              @Part("twitter") twitter: RequestBody,
+                              @Part("facebook") facebook: RequestBody,
+                              @Part("linkedin") linkedin: RequestBody,
+                              @Part image: MultipartBody.Part): Response<ResponseBody>
+
+    @Multipart
+    @POST("user/update")
+    suspend fun updateProfileWithOutImage(
+            @Part("uuid") uuid: RequestBody,
+            @Part("first_name") message: RequestBody,
+            @Part("last_name") first_name: RequestBody,
+            @Part("email") last_name: RequestBody,
+            @Part("phone") email: RequestBody,
+            @Part("weblink") weblink: RequestBody,
+            @Part("instagram") instagram: RequestBody,
+            @Part("twitter") twitter: RequestBody,
+            @Part("facebook") facebook: RequestBody,
+            @Part("linkedin") linkedin: RequestBody,
+    ): Response<ResponseBody>
 
 
     @PUT("comments/edit")

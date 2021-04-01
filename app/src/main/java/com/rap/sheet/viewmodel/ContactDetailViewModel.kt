@@ -2,8 +2,6 @@ package com.rap.sheet.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-
-import com.google.gson.JsonObject
 import com.rap.sheet.retrofit.RestInterface
 import com.rap.sheet.utilitys.Constant.SUCCESS_INSERTED
 import com.rap.sheet.utilitys.Constant.SUCCESS_STATUS
